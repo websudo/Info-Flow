@@ -1,13 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose')
-const mongodb = require('mongodb')
 const dotenv = require('dotenv')
 const cors = require('cors')
+
+
 
 dotenv.config()
 
 //import Routes
-const authRoutes = require('./routes/auth')
+const postRoute = require('./routes/api/post')
+const userAuth  = require('./routes/api/auth')
 
 // app 
 const app = express();
@@ -17,20 +19,31 @@ app.use(express.json())
 app.use(cors())
 
 //Routes Middleware
-app.use( '/api' , authRoutes)
+app.use('/api/post' , postRoute)
+app.use('/api/auth' , userAuth)
 
 
 // Database
-const MongoClient = mongodb.MongoClient
 const db = process.env.MONGODB_URI
-
-MongoClient.connect(db)
-.then( () => { console.log( "Database Connected")})
-.catch( err => { console.err })
-
-
-
 const port = process.env.PORT || 5000
-app.listen( port , ()=>{
-    console.log( `Server started at ${port}`)
-})
+
+mongoose
+	.connect(db, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
+	.then(() =>
+		app.listen(port, () => console.log(`Server running on port ${port} 🔥`))
+	)
+	.catch((error) => console.log(error.message));
+
+mongoose.connection.once("open", () => {
+	console.log("DB connected 🚀");
+});
+
+mongoose.set("useFindAndModify", false);
+
+
+
+
+
