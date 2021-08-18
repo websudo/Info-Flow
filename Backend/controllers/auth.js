@@ -7,6 +7,11 @@ const {
 
 const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
+
+
+/**
+ * * SIGN UP MODULE FOR API ROUTE /api/auth
+ */
 exports.signup = (req, res, next) => {
   let { name, email, password, password_confirmation } = req.body;  let errors = [];
   if (!name) {
@@ -61,6 +66,10 @@ exports.signup = (req, res, next) => {
 
 
 
+
+/**
+ * * SIGN IN MODULE FOR API ROUTE /api/auth
+ */
 exports.signin = (req, res) => {
      let { email, password } = req.body;    
 	 let errors = [];

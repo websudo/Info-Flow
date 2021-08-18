@@ -1,11 +1,23 @@
 const express = require('express')
 const router = express.Router()
 
-// Post model 
+
+/**
+ * * IMPORTING THE POST MODEL FROM MODELS FOLDER
+ */
 const Post = require('../../models/Post')
 
 
+
+
+/**
+ * * POST METHOD FOR ADDING DATA TO THE DATABSE 
+ */
 router.post('/' , (req,res) =>{
+
+    /** 
+     * * GETTING THE BODY OF THE REQUEST RECIEVED 
+     */
     const post = req.body;
 
     Post.create( post , (err , data) =>{
@@ -18,7 +30,18 @@ router.post('/' , (req,res) =>{
     })
 })
 
+
+
+
+/**
+ * * GET METHOD FOR FETCHING THE DATA FROM THE DATABSE 
+ */
 router.get('/' , (req,res) => {
+
+
+    /**
+     * * GETTING ALL THE DATA FROM THE DATABSE 
+     */
     Post.find( (err , data) =>{
         if( err ){
             res.status(500).send(err)
@@ -28,5 +51,6 @@ router.get('/' , (req,res) => {
         }
     })
 })
+
 
 module.exports = router;

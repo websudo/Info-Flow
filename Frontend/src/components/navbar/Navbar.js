@@ -1,5 +1,6 @@
 import React , { useEffect } from 'react'
 import "./Navbar.css";
+import { Link } from 'react-router-dom'
 
 
 
@@ -22,7 +23,9 @@ const Navbar = () => {
         <div>
         
             <nav class="navbar">
-                <a href="#" class="brand-title" >Info-Flow</a>
+                <Link to = '/'>
+                    <a href="#" class="brand-title" >Info-Flow</a>
+                </Link>
                 <a href="#" class="toggle-button">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -32,7 +35,9 @@ const Navbar = () => {
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <Link to = '/auth'>
+                        <li><a href="#">Login</a></li>
+                    </Link>
                 </ul>
                 </div>
             </nav>
