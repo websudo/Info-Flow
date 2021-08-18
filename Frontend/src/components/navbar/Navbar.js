@@ -1,6 +1,6 @@
 import React , { useEffect } from 'react'
 import "./Navbar.css";
-import Logo  from '../../assets/logo/Logo.jpg'
+
 
 
 const Navbar = () => {
@@ -22,7 +22,7 @@ const Navbar = () => {
         <div>
         
             <nav class="navbar">
-                <img class="brand-title" src={Logo}></img>
+                <a href="#" class="brand-title" >Info-Flow</a>
                 <a href="#" class="toggle-button">
                 <span class="bar"></span>
                 <span class="bar"></span>

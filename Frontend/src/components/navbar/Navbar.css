@@ -18,11 +18,13 @@ body {
     color: white;
 }
 
+
+
 .brand-title {
     font-size: 1.5rem;
     margin: .5rem;
-    width: 70px;
-    height: auto;
+    text-decoration: none;
+    color: white;
 }
 
 .navbar-links {
@@ -42,7 +44,7 @@ body {
 .navbar-links li a {
     display: block;
     text-decoration: none;
-    color: white;
+    color: rgb(255, 255, 255);
     padding: 1rem;
 }
 
