@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const auth = require('../../middleware/auth')
 
 
 /**
@@ -13,7 +14,7 @@ const Post = require('../../models/Post')
 /**
  * * POST METHOD FOR ADDING DATA TO THE DATABSE 
  */
-router.post('/' , (req,res) =>{
+router.post('/' , auth , async (req,res) =>{
 
     /** 
      * * GETTING THE BODY OF THE REQUEST RECIEVED 
