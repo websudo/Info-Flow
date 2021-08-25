@@ -43,13 +43,6 @@ const useStyles = makeStyles((theme) => ({
         if( values.name && values.email && values.password && values.password_confirmation){
             axios.post( '/api/auth/register' , values )
             .then( res => {
-
-                /**
-                 * * Refreshes the authentication page if the signup is successfull
-                 */
-                if( res.status == 200){
-                    window.location.reload(false);
-                }
                 console.log(res)
             })
         }

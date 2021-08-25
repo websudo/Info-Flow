@@ -13,6 +13,7 @@ const Post = require('../../models/Post')
 
 /**
  * * POST METHOD FOR ADDING DATA TO THE DATABSE 
+ * * Passing the auth middleware in it so as to check if the user is Authorized 
  */
 router.post('/' , auth , async (req,res) =>{
 
