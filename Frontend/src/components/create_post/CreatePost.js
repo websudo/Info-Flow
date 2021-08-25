@@ -43,6 +43,8 @@ const useStyles = makeStyles({
      * *STATE TO MANAGE THE DATA FROM CREATE POST  
      * */
     const [values, setValues] = React.useState({
+        creator_id : JSON.parse(localStorage.getItem('profile')).data.user.id,
+        createdby : JSON.parse(localStorage.getItem('profile')).data.user.name,
         title: '',
         description: '',
       });
@@ -55,6 +57,7 @@ const useStyles = makeStyles({
      * * Property name is comming as a prop like ( title , description )
      * */
       const handleChange = (prop) => (event) => {
+        
         setValues({ ...values, [prop]: event.target.value });
       };
 
@@ -68,7 +71,14 @@ const useStyles = makeStyles({
       const handleSubmit = () =>{
           if( values.title && values.description){
               axios.post( '/api/post' , values )
-              .then( res => console.log(res))
+              .then( res => {
+                console.log(res);
+
+                /**
+                 * * On Successfull Posting close the dialog box 
+                 */
+                click_func();
+              })
           }
 
           else{

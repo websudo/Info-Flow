@@ -15,9 +15,11 @@ const authReducer = ( state = intialState , action ) => {
             console.log( "auth in authReducer ")
 
             /**
-             * * Storing the token in the localStorage recieved from the payload
+             * * Storing the response in the localStorage
+             * * Now to store it first convert it into String 
              */
-            localStorage.setItem( 'token' , action.data.token)
+            localStorage.setItem( 'profile' , JSON.stringify(action.data.res) )
+            console.log( action.data.res)
             return { ...state , user : action.data };
             break;
         

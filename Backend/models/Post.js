@@ -12,6 +12,16 @@ const postSchema = mongoose.Schema({
 		default: false,
 	},
 
+	createdby : {
+		type : String,
+		default: ""
+	},
+
+	creator_id : {
+		type : String,
+		default : ""
+	},
+
 	comment : [
 		{
 			

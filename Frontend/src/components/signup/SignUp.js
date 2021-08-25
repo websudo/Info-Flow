@@ -1,8 +1,18 @@
 import React, { useState , useEffect } from 'react'
+import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from '../../api/index'
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import clsx from 'clsx';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 const useStyles = makeStyles((theme) => ({
     
@@ -26,12 +36,14 @@ const useStyles = makeStyles((theme) => ({
   export default function Auth() {
 
     const classes = useStyles();
+    const history = useHistory();
 
     const [ values , setValues ] = useState({
         name : "",
         email : "",
         password: "",
-        password_confirmation: ""
+        password_confirmation: "",
+        showPassword : false
     })
 
     const handleChange = (props) => (event) => {
@@ -39,11 +51,26 @@ const useStyles = makeStyles((theme) => ({
     }
 
 
+    const handleClickShowPassword = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+      };
+    
+      const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+      };
+
+
     const handleRegister= () => {
         if( values.name && values.email && values.password && values.password_confirmation){
             axios.post( '/api/auth/register' , values )
             .then( res => {
                 console.log(res)
+
+                /**
+                 * * Force Reloading the page after Sign Up 
+                 * * So that the Sign in page is promted 
+                 */
+                window.location.reload(false);
             })
         }
 
@@ -83,31 +110,51 @@ const useStyles = makeStyles((theme) => ({
                 onChange={ handleChange('email') }
                 />
 
-            <TextField
-                required
-                className={classes.input__field}
-                id="outlined-required"
-                label="Password"
-                placeholder="Enter Password"
-                variant="outlined"
-                InputLabelProps={{
-                    shrink: true,
-                  }}
-                onChange={ handleChange('password') }
+                <FormControl className={clsx(classes.margin, classes.textField , classes.input__field)} variant="outlined">
+                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                    <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={values.showPassword ? 'text' : 'password'}
+                    value={values.password}
+                    onChange={handleChange('password')}
+                    endAdornment={
+                    <InputAdornment position="end">
+                        <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                        >
+                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                    </InputAdornment>
+                    }
+                    labelWidth={70}
                 />
+                        </FormControl>
 
-            <TextField
-                required
-                className={classes.input__field}
-                id="outlined-required"
-                label="Confirm Password"
-                placeholder="Enter Password Again"
-                variant="outlined"
-                InputLabelProps={{
-                    shrink: true,
-                  }}
-                onChange={ handleChange('password_confirmation') }
-                />  
+                <FormControl className={clsx(classes.margin, classes.textField , classes.input__field)} variant="outlined">
+                <InputLabel htmlFor="standard-adornment-password-confirmation">Confirm Password</InputLabel>
+                        <OutlinedInput
+                    id="outlined-adornment-password-confirmation"
+                    type={values.showPassword ? 'text' : 'password'}
+                    value={values.password_confirmation}
+                    onChange={handleChange('password_confirmation')}
+                    endAdornment={
+                    <InputAdornment position="end">
+                        <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                        >
+                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                    </InputAdornment>
+                    }
+                    labelWidth={70}
+                />
+                        </FormControl>
 
 
                 <Button 
