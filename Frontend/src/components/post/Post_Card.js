@@ -1,9 +1,11 @@
-import React, { useEffect , useState} from 'react';
+import React, { useEffect , useState , useContext} from 'react';
 import PCard from '../card/Card'
 import axios from '../../api/index'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import CreatePost from '../create_post/CreatePost'
+
+
 
 const useStyles = makeStyles({
     root: {
@@ -21,7 +23,10 @@ const useStyles = makeStyles({
 
 
 export default function MediaCard() {
+
+  
     const classes = useStyles();
+    const [ isLoggedIn , setIsLoggedIn ] = useState(false)
 
     const [ post , setPost ] = useState([])
     const [ isOpenCreatePost , setIsOpenCreatePost ] = useState(false)
@@ -43,10 +48,11 @@ export default function MediaCard() {
         }
 
         fetchData()
-
+        
         
     })
 
+    
 
     /**
      *  * MAPPING THE RESULTS IN THE REVERSE ORDER 

@@ -1,7 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import axios from '../../api/index'
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,8 +30,45 @@ const useStyles = makeStyles((theme) => ({
 
     const classes = useStyles();
 
+    const [ loggedIn , setLoggedIn ] = useState({
+        token : "",
+        name : "",
+        loggedin : false
+    } )
+
+
+    const [ values , setValues ] = useState({
+        email : '',
+        password : ''
+    })
+
+    const handleChange = (props) => (event) => {
+        setValues({ ...values , [props] : event.target.value })
+    }
+
+    const handleSubmit = () => {
+        if( values.email && values.password){
+            axios.post('/api/auth/login' , values)
+            .then( res => 
+                {
+                    if( res.status == 200){
+                        setLoggedIn({
+                            ...loggedIn , 
+                            token : localStorage.setItem( 'token' , res.data.token ),
+                            name : localStorage.setItem( 'user-name', res.data.user.name),
+                            loggedin : true
+                        }) 
+                        
+                    }
+                    console.log(res)
+                }
+            )
+        }
+    }
+
     return (
         <div className={classes.signin__main}>
+
             <TextField
                 required
                 className={classes.input__field}
@@ -39,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
                 InputLabelProps={{
                     shrink: true,
                   }}
+                onChange={handleChange('email')}
                 />
 
             <TextField
@@ -51,10 +92,15 @@ const useStyles = makeStyles((theme) => ({
                 InputLabelProps={{
                     shrink: true,
                   }}
+                onChange={handleChange('password')}
                 />
 
 
-                <Button variant="contained" color="primary">
+                <Button 
+                variant="contained" 
+                color="primary"
+                onClick={handleSubmit}
+                >
                     LogIN
                 </Button>
         </div>
