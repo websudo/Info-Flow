@@ -39,10 +39,13 @@ body {
 
 .navbar-links li {
     list-style: none;
+    display: block;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    padding: 1rem;
 }
 
 .navbar-links li a {
-    display: block;
     text-decoration: none;
     color: rgb(255, 255, 255);
     padding: 1rem;

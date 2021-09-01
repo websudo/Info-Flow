@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   });
 
 
-  export default function MediaCard({click_func}) {
+  export default function MediaCard({click_func , handleRefresh}) {
     const classes = useStyles();
 
 
@@ -78,6 +78,11 @@ const useStyles = makeStyles({
                  * * On Successfull Posting close the dialog box 
                  */
                 click_func();
+
+                /**
+                 * * On Successfull Posting Fetch the data from api 
+                 */
+                handleRefresh();
               })
           }
 

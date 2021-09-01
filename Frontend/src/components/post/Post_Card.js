@@ -34,6 +34,7 @@ export default function MediaCard() {
 
     const [ post , setPost ] = useState([])
     const [ isOpenCreatePost , setIsOpenCreatePost ] = useState(false)
+    const [ refresh , setRefersh ] = useState( true )
 
 
      /** 
@@ -44,20 +45,32 @@ export default function MediaCard() {
     }
 
 
+    /**
+     * * Checking if the data needs to be fetched from the API or not 
+     */
+    const handleRefresh = () => {
+        setRefersh( !refresh)
+    }
+
+
     /* 
     * *FETCHING THE DATA FROM THE API ( /api/post )
     */ 
     useEffect( () =>{
         async function fetchData(){
             const req = await axios.get('/api/post')
-            setPost(req.data)
+            console.log( post , req.data)
+            if( post != req.data ){
+              console.log( "not same")
+            setPost(req.data)}
         }
 
         fetchData()
         
-    })
+    },[refresh]) 
 
 
+    
 
     useEffect( () => {
 
@@ -70,13 +83,14 @@ export default function MediaCard() {
     }, [location]);
     
 
+
+
     /**
      *  * MAPPING THE RESULTS IN THE REVERSE ORDER 
      * */
 
-    
     let list = post.slice(0).reverse().map( posts => {
-        return <PCard key={posts._id} id={posts._id} title={posts.title} desc={posts.description} date={posts.date} createdby={posts.createdby} creatorid={posts.creator_id} />
+        return <PCard key={posts._id} id={posts._id} title={posts.title} desc={posts.description} date={posts.date} createdby={posts.createdby} creatorid={posts.creator_id} handleRefresh={handleRefresh} />
     })
 
 
@@ -90,7 +104,7 @@ export default function MediaCard() {
             </Button>
 
           } 
-            { isOpenCreatePost && <CreatePost click_func={handleClick}/>}
+            { isOpenCreatePost && <CreatePost click_func={handleClick} handleRefresh={handleRefresh}/>}
             {list}
         </div>
   );

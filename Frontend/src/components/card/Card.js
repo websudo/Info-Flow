@@ -23,7 +23,10 @@ const useStyles = makeStyles({
   delete__icon: {
     marginLeft: 'auto',
     marginRight : 0,
-    
+    '&:hover':{
+      cursor : 'pointer',
+      backgroundColor : '#cecece'
+    },
   },
 
   post__header : {
@@ -35,15 +38,22 @@ const useStyles = makeStyles({
   }
 });
 
+
+
 export default function MediaCard(props) {
   const classes = useStyles();
-
+  console.log(props.date)
   const deleteHandler = () => {
       console.log(props)
 
       axios.delete( '/api/post' , { data : { id : props.id , user : props.createdby}})
       .then( res => {
-        console.log(res)
+        console.log(res);
+
+        /**
+         * * On Successfull Deletion Fetch the data from API
+         */
+        props.handleRefresh();
       })
       .catch( err => {
         console.log( err )
@@ -88,16 +98,18 @@ export default function MediaCard(props) {
           </Typography>
         </CardContent>
       </CardActionArea>
+      
       <CardActions>
         <Typography variant="body2" color="textSecondary" component="p">
 
             { /* DATE PARSING */}
-            { moment(props.date , "YYYY-MM-DD")._pf.parsedDateParts.toString().replace(/,/g,'-') }
-            
-          </Typography>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
+            {moment(props.date , "YYYY-MM-DD")._pf.parsedDateParts.toString().replace(/,/g,'/')}
+        </Typography>
+
+        <Typography variant="body2" color="textSecondary" component="p">
+            {moment(props.date , "hh:mm:ss")._pf.parsedDateParts.toString().replace(/,/g,':').substr(3)}
+        </Typography>
+
       </CardActions>
     </Card>
   );
