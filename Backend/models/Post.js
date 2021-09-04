@@ -24,7 +24,16 @@ const postSchema = mongoose.Schema({
 
 	comment : [
 		{
-			
+
+			comment: { type: String, required: true },
+			createdby : {
+				type : String,
+				default: ""
+			},
+			date : {
+				type : Date,
+				default : Date.now
+			},
 		}
 	]
 });

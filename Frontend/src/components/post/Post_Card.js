@@ -90,7 +90,7 @@ export default function MediaCard() {
      * */
 
     let list = post.slice(0).reverse().map( posts => {
-        return <PCard key={posts._id} id={posts._id} title={posts.title} desc={posts.description} date={posts.date} createdby={posts.createdby} creatorid={posts.creator_id} handleRefresh={handleRefresh} />
+        return <PCard key={posts._id} id={posts._id} title={posts.title} desc={posts.description} date={posts.date} createdby={posts.createdby} creatorid={posts.creator_id} comments={posts.comment} handleRefresh={handleRefresh} />
     })
 
 

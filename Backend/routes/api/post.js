@@ -21,16 +21,32 @@ router.post('/' , auth ,  async (req,res) =>{
      * * GETTING THE BODY OF THE REQUEST RECIEVED 
      */
     const post = req.body;
-    console.log( post )
+    console.log( "this is id of post" , req.body_id )
 
-    Post.create( post , (err , data) =>{
-        if( err ){
-            res.status(500).send(err)
-        }
-        else{
-            res.status(201).send(data)
-        }
-    })
+    if( req.body._id ){
+        Post.findByIdAndUpdate( req.body._id , post , (err , data) =>{
+            if( err ){
+                res.status(500).send(err)
+            }
+            else{
+                res.status(201).send(data)
+                console.log( " this is id wala ")
+            }
+        })
+    }
+
+    else{
+        Post.create( post , (err , data) =>{
+            if( err ){
+                res.status(500).send(err)
+            }
+            else{
+                res.status(201).send(data)
+                console.log( " this is non id wala ")
+            }
+        })
+    }
+    
 })
 
 

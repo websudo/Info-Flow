@@ -43,7 +43,7 @@ const useStyles = makeStyles({
 
 export default function MediaCard(props) {
   const classes = useStyles();
-  
+  console.log(props.date)
   const deleteHandler = () => {
       console.log(props)
 
@@ -90,28 +90,13 @@ export default function MediaCard(props) {
 
       </CardActions>
       <CardActionArea>
-        <Link to={{
-            pathname : '/postpage',
-            state : {
-              id : props.id,
-              createdby : props.createdby,
-              creatorid : props.creatorid,
-              title : props.title,
-              description : props.desc,
-              date : props.date,
-              comments : props.comments
-            }
-        }} 
-        style={{ textDecoration : 'none' , color : 'black'}} >
+        
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              { props.title }
-            </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              { props.desc }
+              { props.comment }
             </Typography>
           </CardContent>
-        </Link>
+      
       </CardActionArea>
       
       <CardActions>
