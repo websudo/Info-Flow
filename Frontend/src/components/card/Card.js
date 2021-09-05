@@ -1,16 +1,21 @@
-import React from 'react';
+import React,{useState , useEffect , useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment'
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from '../../api/index';
 import { Link } from 'react-router-dom';
-
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles({
   root: {
@@ -40,14 +45,41 @@ const useStyles = makeStyles({
 });
 
 
+const useDidMountEffect = (func, deps) => {
+  const didMount = useRef(false);
+
+  useEffect(() => {
+    if (didMount.current) {
+      func();
+    } else {
+      didMount.current = true;
+    }
+  }, deps);
+};
+
 
 export default function MediaCard(props) {
   const classes = useStyles();
-  
-  const deleteHandler = () => {
-      console.log(props)
 
-      axios.delete( '/api/post' , { data : { id : props.id , user : props.createdby}})
+  /**
+   * * Date and Time parsing */
+  const date = moment(props.date , "YYYY-MM-DD")._pf.parsedDateParts.toString().replace(/,/g,'/')
+  const time = moment(props.date , "hh:mm:ss")._pf.parsedDateParts.toString().replace(/,/g,':').substr(3)
+
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleConfirmDelete = () => {
+    
+    axios.delete( '/api/post' , { data : { id : props.id , user : props.createdby}})
       .then( res => {
         console.log(res);
 
@@ -60,6 +92,12 @@ export default function MediaCard(props) {
         console.log( err )
       })
   }
+
+
+  
+
+
+  
   
   return (
     <Card className={classes.root}>
@@ -80,10 +118,16 @@ export default function MediaCard(props) {
            */
           (JSON.parse(localStorage.getItem('profile'))) && 
           props.creatorid == JSON.parse(localStorage.getItem('profile')).data.user.id  && 
-          <DeleteIcon 
-          className={classes.delete__icon}
-          onClick={deleteHandler}
-          />
+          
+          <Grid item>
+            <Tooltip title="Delete" arrow placement="right">
+              <DeleteIcon 
+              className={classes.delete__icon}
+              onClick={handleClickOpen}
+              />
+            </Tooltip>
+          </Grid>
+          
         }
         
 
@@ -116,16 +160,44 @@ export default function MediaCard(props) {
       
       <CardActions>
         <Typography variant="body2" color="textSecondary" component="p">
-
-            { /* DATE PARSING */}
-            {moment(props.date , "YYYY-MM-DD")._pf.parsedDateParts.toString().replace(/,/g,'/')}
+            {date}
         </Typography>
 
         <Typography variant="body2" color="textSecondary" component="p">
-            {moment(props.date , "hh:mm:ss")._pf.parsedDateParts.toString().replace(/,/g,':').substr(3)}
+            {time}
         </Typography>
 
       </CardActions>
+
+
+
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this post!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
     </Card>
+
+
+        
   );
 }

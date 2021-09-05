@@ -9,14 +9,16 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import clsx from 'clsx';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 
-
-
+/**
+ * * Snackbar Imports 
+ */
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
 
@@ -39,6 +41,15 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
+
+  /**
+   * * Alert Function 
+   */
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+
   export default function Auth() {
 
     const classes = useStyles();
@@ -53,6 +64,23 @@ const useStyles = makeStyles((theme) => ({
         password : '',
         showPassword: false,
     })
+
+    const [open, setOpen] = React.useState(false);
+
+
+    const handleClick = () => {
+        setOpen(true);
+        console.log( "Snackbar")
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpen(false);
+    };
+
 
     const handleChange = (props) => (event) => {
         setValues({ ...values , [props] : event.target.value })
@@ -86,10 +114,15 @@ const useStyles = makeStyles((theme) => ({
                          */
                         history.push( '/' )
                         
+                        
                     }
                     console.log(res)
                 }
             )
+            .catch(err => {
+                console.log( "Wrong Credentials ");
+                handleClick()
+            })
         }
     }
 
@@ -138,6 +171,14 @@ const useStyles = makeStyles((theme) => ({
                 >
                     LogIN
                 </Button>
+
+
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="error">
+                    Wrong Credentials
+                    </Alert>
+                </Snackbar>
+
         </div>
     )
 }

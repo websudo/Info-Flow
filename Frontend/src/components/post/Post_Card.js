@@ -1,4 +1,4 @@
-import React, { useEffect , useState , useContext} from 'react';
+import React, { useEffect , useState , useContext, useRef} from 'react';
 import PCard from '../card/Card'
 import axios from '../../api/index'
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,6 +6,11 @@ import Button from '@material-ui/core/Button';
 import CreatePost from '../create_post/CreatePost'
 import { useLocation  } from 'react-router';
 
+/**
+ * * Snackbar Imports 
+ */
+ import Snackbar from '@material-ui/core/Snackbar';
+ import MuiAlert from '@material-ui/lab/Alert';
 
 
 
@@ -23,6 +28,25 @@ const useStyles = makeStyles({
   });
 
 
+   /**
+   * * Alert Function 
+   */
+    function Alert(props) {
+      return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
+  
+
+    const useDidMountEffect = (func, deps) => {
+      const didMount = useRef(false);
+    
+      useEffect(() => {
+        if (didMount.current) {
+          func();
+        } else {
+          didMount.current = true;
+        }
+      }, deps);
+    };
 
 export default function MediaCard() {
 
@@ -35,7 +59,27 @@ export default function MediaCard() {
     const [ post , setPost ] = useState([])
     const [ isOpenCreatePost , setIsOpenCreatePost ] = useState(false)
     const [ refresh , setRefersh ] = useState( true )
+    const [ username , setUsername ] = useState({})
+    
+    const [open, setOpen] = React.useState(false);
 
+
+    /*if( isLoggedIn ){
+      setOpen(true);
+      console.log( "Snackbar")
+      break;
+    }*/
+        
+   
+    
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpen(false);
+    };
 
      /** 
       * * CHECKING IF THE CREATE POST DIALOG IS OPEN OR NOT 
@@ -76,6 +120,9 @@ export default function MediaCard() {
 
       if( localStorage.getItem('profile')){
         setIsLoggedIn(true)
+        setUsername(JSON.parse(localStorage.getItem("profile")).data.user.name)
+        setOpen(true)
+
       }
       else{
         setIsLoggedIn(false)
@@ -93,8 +140,7 @@ export default function MediaCard() {
         return <PCard key={posts._id} id={posts._id} title={posts.title} desc={posts.description} date={posts.date} createdby={posts.createdby} creatorid={posts.creator_id} comments={posts.comment} handleRefresh={handleRefresh} />
     })
 
-
- 
+    
   return (
         <div className={classes.root}>
           {
@@ -106,6 +152,12 @@ export default function MediaCard() {
           } 
             { isOpenCreatePost && <CreatePost click_func={handleClick} handleRefresh={handleRefresh}/>}
             {list}
+
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="success">
+                    Welcome {username }!
+                    </Alert>
+            </Snackbar>
         </div>
   );
 }

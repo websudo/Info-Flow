@@ -83,30 +83,6 @@ const useStyles = makeStyles({
           setValues({ ...values, comment : [ ...values.comment , newcomment]} );
           console.log( values)
           setIsUpdated( !isUpdated)
-          
-
-           /* console.log( props )
-            if( values.comment){
-                axios.post( '/api/post' , values )
-                .then( res => {
-                  console.log(res);
-  
-                  /**
-                   * * On Successfull Posting close the dialog box 
-                   */
-                  //props.click_func();
-  
-                  /**
-                   * * On Successfull Posting Fetch the data from api 
-                   */
-                  //handleRefresh();
-                //})
-            //}
-  
-           /* else{
-                console.log( " Parameters missing ")
-            }
-            */
         }
 
         if(isUpdated){
@@ -126,7 +102,7 @@ const useStyles = makeStyles({
                   /**
                    * * On Successfull Posting Fetch the data from api 
                    */
-                  //handleRefresh();
+      
                 })
             }
   
@@ -148,10 +124,11 @@ const useStyles = makeStyles({
             <CloseIcon  onClick={() => props.click_func()} className={classes.close__icon}/>
         </CardActions>
         
+        
         <CardContent>
         
         
-        <FormControl fullWidth className={classes.margin}>
+        <FormControl fullWidth className={classes.margin} >
         
           <InputLabel htmlFor="desc">Comment</InputLabel>
           <Input
@@ -172,7 +149,9 @@ const useStyles = makeStyles({
             >
             Post
         </Button>
+        
         </CardActions>
+        
     </Card>
   );
 }

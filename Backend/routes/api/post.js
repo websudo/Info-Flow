@@ -21,7 +21,7 @@ router.post('/' , auth ,  async (req,res) =>{
      * * GETTING THE BODY OF THE REQUEST RECIEVED 
      */
     const post = req.body;
-    console.log( "this is id of post" , req.body_id )
+    
 
     if( req.body._id ){
         Post.findByIdAndUpdate( req.body._id , post , (err , data) =>{
@@ -30,7 +30,7 @@ router.post('/' , auth ,  async (req,res) =>{
             }
             else{
                 res.status(201).send(data)
-                console.log( " this is id wala ")
+                console.log( "Post route called for updating ")
             }
         })
     }
@@ -38,11 +38,12 @@ router.post('/' , auth ,  async (req,res) =>{
     else{
         Post.create( post , (err , data) =>{
             if( err ){
+                
                 res.status(500).send(err)
             }
             else{
                 res.status(201).send(data)
-                console.log( " this is non id wala ")
+                console.log( "Post route called for creating ")
             }
         })
     }
@@ -61,6 +62,7 @@ router.get('/' , (req,res) => {
     /**
      * * GETTING ALL THE DATA FROM THE DATABSE 
      */
+    console.log( " Get route called ")
     Post.find( (err , data) =>{
         if( err ){
             res.status(500).send(err)
@@ -83,6 +85,7 @@ router.delete('/' , auth , async (req,res) => {
 
     const id = req.body.id
 
+    console.log( " Delete Route called ")
     /**
      * * Passing the particular id of the post to delete
      */
