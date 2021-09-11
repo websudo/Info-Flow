@@ -1,22 +1,30 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles ,withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment'
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from '../../api/index';
-import { Link } from 'react-router-dom';
+import Divider from '@material-ui/core/Divider';
+
+/*const WhiteTextTypography = withStyles({
+  root: {
+    color: "#FFFFFF"
+  }
+})(Typography);*/
 
 
 const useStyles = makeStyles({
   root: {
     maxWidth: '100%',
-    marginTop : 20
+    marginTop : 20,
+    //backgroundColor: '#333',
+    //color: 'white'
   },
+
   media: {
     height: 140,
   },
@@ -36,6 +44,11 @@ const useStyles = makeStyles({
 
   user__name: {
     marginRight: 'auto',
+  },
+
+  divider: {
+    marginLeft: '0.5rem',
+    marginRight: '0.5rem'
   }
 });
 
@@ -86,19 +99,26 @@ export default function MediaCard(props) {
           />
         }
         
-
-
+  
       </CardActions>
+
+      <Divider className={classes.divider}/>
+
+
       <CardActionArea>
         
           <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant="body1" color="textPrimary" component="p">
               { props.comment }
             </Typography>
           </CardContent>
       
       </CardActionArea>
       
+
+      <Divider className={classes.divider}/>
+
+
       <CardActions>
         <Typography variant="body2" color="textSecondary" component="p">
 

@@ -1,6 +1,6 @@
 import React, { useState , useEffect, useRef} from 'react'
 import Navbar from '../../components/navbar/Navbar'
-import Card from '../../components/card/Card'
+import PostPageCard from '../../components/postpage_card/PostPageCard'
 import CreateComment from '../../components/create_comment/CreateComment'
 import { useLocation } from 'react-router'
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import CommentCard from '../../components/comment-card/CommentCard'
 import Button from '@material-ui/core/Button';
 import axios from '../../api/index'
+import {Link } from 'react-scroll'
 
 
 const useStyles = makeStyles({
@@ -53,6 +54,8 @@ export default function Post() {
     const classes = useStyles();
     const location = useLocation();
     const state = location.state;
+
+
 
 
     const [ post , setPost ] = useState({})
@@ -134,7 +137,7 @@ export default function Post() {
 			</div>
 			{/* main */}
 			<div className={ classes.post__page__main }>
-                <Card id={post.id} title={post.title} desc={post.description} date={post.date} createdby={post.createdby} creatorid={post.creator_id} /> 
+                <PostPageCard id={post.id} title={post.title} desc={post.description} date={post.date} createdby={post.createdby} creatorid={post.creator_id} upload={post.upload}  /> 
                 
                 <div className={classes.comment__area}>
                     <Typography variant="h6" component="h2" gutterBottom class>
@@ -146,11 +149,21 @@ export default function Post() {
 
                     {  isOpenCreateComment && <CreateComment click_func={handleClick} handlerefresh={handleRefresh} comments={ comments } id={post._id} title={post.title} desc={post.description} date={post.date} createdby={post.createdby} creatorid={post.creator_id}/>}
 
-                    { isLoggedIn && <Button variant="contained" color="primary" className={ classes.comment__button} onClick={ handleClick}>
+                    { isLoggedIn &&
+                    
+                    <Link to='bottom' spy={true} smooth={true} className={ classes.comment__button}>
+                    <Button 
+                    
+                      variant="contained" 
+                      color="primary" 
+                      className={ classes.comment__button} 
+                      disabled={isOpenCreateComment}
+                      onClick={ handleClick}>
                         Post Comment
                     </Button>
+                    </Link>
                     }
-
+                    <div id="bottom"></div>
                 </div>
             </div>
         </div>

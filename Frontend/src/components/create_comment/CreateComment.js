@@ -14,7 +14,7 @@ import axios from '../../api/index'
 const useStyles = makeStyles({
     root: {
       maxWidth: '100%',
-      marginTop : 20
+      marginTop : 20,
     },
     media: {
       height: 140,
@@ -31,7 +31,30 @@ const useStyles = makeStyles({
         '&:hover': {
             background: '#a6a6a6',
         },
+    },
+
+    label__input:{
+      fontWeight: 'bold',
+      fontSize : 17,
+      marginTop: 0
+    },
+
+    comment__input:{
+      marginTop:10,
+      marginBottom:10,
+      padding: 10,
+      border : '1px black solid',
+      borderRadius: 4,
+      fontSize: 15,
+    },
+
+    post__button:{
+      marginLeft: 'auto',
+      marginRight: 10,
+      marginBottom: 10,
+      width: 70
     }
+
   });
 
 
@@ -39,6 +62,8 @@ const useStyles = makeStyles({
 
     console.log(props.comments)
     const classes = useStyles();
+
+    
 
     /** 
      * *STATE TO MANAGE THE DATA FROM CREATE COMMENT
@@ -88,7 +113,7 @@ const useStyles = makeStyles({
         if(isUpdated){
           
             console.log( "useEffect  " , values)
-              if( values.comment){
+              if( newcomment.comment){
                 axios.post( '/api/post' , values )
                 .then( res => {
                   console.log(res);
@@ -129,12 +154,10 @@ const useStyles = makeStyles({
         
         
         <FormControl fullWidth className={classes.margin} >
-        
-          <InputLabel htmlFor="desc">Comment</InputLabel>
-          <Input
-            id="comment"
-            onChange={handleChange('comment')}
-          />
+   
+        <label htmlFor='comment' className={classes.label__input}>Comment</label>
+        <input className={classes.comment__input} id="comment" onChange={handleChange('comment')} placeholder="Write comment here" ></input>  
+
         </FormControl>
 
         
@@ -146,6 +169,8 @@ const useStyles = makeStyles({
             size="small" 
             color="primary"
             onClick = { handleSubmit }
+            className={classes.post__button}
+            variant='contained'
             >
             Post
         </Button>

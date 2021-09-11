@@ -3,6 +3,14 @@ import { useLocation } from 'react-router';
 import { useHistory } from 'react-router';
 import "./Navbar.css";
 import { Link } from 'react-router-dom'
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Button from '@material-ui/core/Button';
+
 
 /**
  * * To decode the token 
@@ -10,6 +18,14 @@ import { Link } from 'react-router-dom'
 import  decode  from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 
+
+   /**
+   * * Alert Function 
+   */
+    function Alert(props) {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+      }
+    
 
 
 const Navbar = () => {
@@ -23,6 +39,19 @@ const Navbar = () => {
         name : ''
     })
 
+    const [ loginexp , setLoginexp ] = useState(false)
+    const [open, setOpen] = useState(false);
+    const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
+
+    const handleClickOpenLogoutDialog = () => {
+      setOpenLogoutDialog(true)
+    }
+  
+    const handleCloseLogoutDialog = () => {
+      setOpenLogoutDialog(false);
+    };
+
+
     useEffect( () => {
         const toggleButton = document.getElementsByClassName('toggle-button')[0]
         const navbarLinks = document.getElementsByClassName('navbar-links')[0]
@@ -31,27 +60,36 @@ const Navbar = () => {
             navbarLinks.classList.toggle('active')
         })
 
+    })
+
+
+    useEffect( () => {
 
         /**
          * * Checking if the Token has expired or not 
          */
-        if( JSON.parse(localStorage.getItem('profile'))){
-            const token = JSON.parse(localStorage.getItem('profile')).data.token;
-            const decodedToken = decode(token)
-
-            /**
-             * * decodedToken.exp will be in ms so multiplying it by 1000
-             */
-            if( decodedToken.exp * 1000 < new Date().getTime()){
-                dispatch({ type : 'LOGOUT'})
-                handleLogout()
-                history.push('/')
-            } 
-        }
-
-    })
 
 
+         const interval = setInterval(() => {
+            
+            if( JSON.parse(localStorage.getItem('profile'))){
+                const token = JSON.parse(localStorage.getItem('profile')).data.token;
+                const decodedToken = decode(token)
+    
+                /**
+                 * * decodedToken.exp will be in ms so multiplying it by 1000
+                 */
+                if( decodedToken.exp * 1000 < new Date().getTime()){
+                    dispatch({ type : 'LOGOUT'})
+                    history.push('/')
+                    handleAutoLogout()
+                } 
+            }
+
+          }, 1000);
+          return () => clearInterval(interval);
+         
+    },[])
 
     useEffect( () => {
 
@@ -60,6 +98,8 @@ const Navbar = () => {
                 loggedin : true,
                 name : JSON.parse(localStorage.getItem('profile')).data.user.name 
             })
+
+            setOpen(false)
         }
     }, [location]);
 
@@ -67,11 +107,41 @@ const Navbar = () => {
     
     const handleLogout = () =>{
         
+        console.log("Logged out ");
+
+        localStorage.clear();
+        setIsLoggedIn({ ...isLoggedIn , 
+            loggedin : false,
+            name : ''    
+        })
+        setOpen(true)
+        
+
+        /**
+         * * We can also use useHistory hook 
+         * * instead of using Link when needed
+         */
+        history.push('/auth')
+    }
+
+
+    const handleAutoLogout = () => {
+        setOpen(true)
+        localStorage.clear();
         setIsLoggedIn({ ...isLoggedIn , 
             loggedin : false,
             name : ''    
         })
     }
+
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpen(false);
+    };
 
 
 
@@ -108,14 +178,47 @@ const Navbar = () => {
                     <ul>
                         <li><a href="#">Home</a></li>
                         <li><a href="#">{isLoggedIn.name}</a></li>
-                        <Link to = '/auth' onClick={ handleLogout } style={{ textDecoration : 'none'}}>
-                            <li>Logout</li>
-                        </Link>
+                        {/*<Link to = '/auth' onClick={ handleClickOpenLogoutDialog } style={{ textDecoration : 'none'}}>*/}
+                        <li  onClick={ handleClickOpenLogoutDialog } >Logout</li>
+                        {/*</Link>*/}
                     </ul>
                     </div>
                 }
 
-             
+                {   loginexp &&
+                    <Alert severity="warning">You have been Logged out. Please Login to continue!</Alert>
+                }
+
+
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                            <Alert onClose={handleClose} severity="warning">
+                            You have been Logged out. Please Login to continue!
+                            </Alert>
+                    </Snackbar>
+                
+
+                    <Dialog
+                        open={openLogoutDialog}
+                        onClose={handleCloseLogoutDialog}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        
+                        <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            You will be Logged out from this account!
+                        </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={handleCloseLogoutDialog } color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={handleLogout} color="primary" autoFocus>
+                            Confirm
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
+
             </nav>
         </div>
 	);

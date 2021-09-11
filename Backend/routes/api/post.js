@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../../middleware/auth')
+const multer = require('multer')
+
 
 
 /**
@@ -11,16 +13,28 @@ const Post = require('../../models/Post')
 
 
 
+const storage = multer.diskStorage({
+    destination: (req , file , callback) => {
+        callback( null , "../Frontend/public/uploads");
+    },
+    filename: ( req, file, callback) => {
+        callback(null, file.originalname);
+    }
+})
+
+const upload = multer({storage:storage});
+
 /**
  * * POST METHOD FOR ADDING DATA TO THE DATABSE 
  * * Passing the auth middleware in it so as to check if the user is Authorized 
  */
-router.post('/' , auth ,  async (req,res) =>{
+router.post('/' , auth , upload.array("upload", 10) ,  async (req,res) =>{
 
     /** 
      * * GETTING THE BODY OF THE REQUEST RECIEVED 
      */
     const post = req.body;
+
     
 
     if( req.body._id ){
@@ -36,16 +50,39 @@ router.post('/' , auth ,  async (req,res) =>{
     }
 
     else{
+
+        console.log( " This is file name " , req.files)
+
+        const newPost = new Post({
+            creator_id : req.body.creator_id,
+            createdby : req.body.createdby,
+            title : req.body.title,
+            description : req.body.description,
+            upload : []
+        })
+
+
+        for( var i =0 ; i< req.files.length ; i++){
+            newPost.upload.push(req.files[i].originalname)
+        }
+
+
+        console.log( newPost.upload)
+        
+        newPost
+        .save()
+        .then( () => res.status(200).send(data) )
+        .catch( (err) => { res.status(500).send(err); console.log("newpost save error") })
+        
+        /*
         Post.create( post , (err , data) =>{
             if( err ){
-                
                 res.status(500).send(err)
             }
             else{
-                res.status(201).send(data)
-                console.log( "Post route called for creating ")
+                res.status(200).send(data)
             }
-        })
+        })*/
     }
     
 })

@@ -1,5 +1,5 @@
 import React,{useState , useEffect , useRef } from 'react';
-import { makeStyles ,withStyles} from '@material-ui/core/styles';
+import { makeStyles , withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment'
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from '../../api/index';
-import { Link } from 'react-router-dom';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -16,12 +15,18 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
+import CardMedia from '@material-ui/core/CardMedia';
+import download from 'downloadjs'
+import IconButton from '@material-ui/core/IconButton';
+import CardHeader from '@material-ui/core/CardHeader';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 /*const WhiteTextTypography = withStyles({
   root: {
     color: "#FFFFFF"
   }
 })(Typography);*/
+
 
 
 const useStyles = makeStyles({
@@ -31,6 +36,7 @@ const useStyles = makeStyles({
     //backgroundColor: '#333',
     //color: 'white'
   },
+
   media: {
     height: 140,
   },
@@ -41,17 +47,25 @@ const useStyles = makeStyles({
     '&:hover':{
       cursor : 'pointer',
       backgroundColor : '#cecece'
-      //backgroundColor : '#757575'
     },
-    borderRadius: '50%'
   },
 
-  post__header : {
-    
-  },
+
 
   user__name: {
     marginRight: 'auto',
+  },
+
+  attach__file:{
+    height: 220,
+    width: 220,
+    marginLeft: 20,
+    marginBottom:20,
+    //backgroundColor: '#5c5c5c',
+  },
+
+  files__block:{
+    display: 'flex'
   }
 });
 
@@ -60,7 +74,7 @@ const useStyles = makeStyles({
 
 export default function MediaCard(props) {
   const classes = useStyles();
-  
+  console.log(props.upload)
 
   /**
    * * Date and Time parsing */
@@ -95,6 +109,35 @@ export default function MediaCard(props) {
   }
 
 
+  const handleDownload = (prop) => (event) => {
+      download(prop);
+  }
+
+  const files_list = props.upload && props.upload.map( (file) => {
+    return (
+      <Card className={classes.attach__file}>
+            <CardHeader
+              action={
+                <IconButton aria-label="Download">
+                  <GetAppIcon 
+                    onClick={handleDownload(`/uploads/${file}`)} 
+                    style={{ margin: '0' , height: '60' , width : '60' }}
+                    fontSize='small'
+                    />
+                </IconButton>
+              }
+
+              style={{ height : '50px' , marginTop: '0', paddingBottom:'0'}}
+            />
+            <CardMedia
+                  className={classes.media}
+                  image={`/uploads/${file}`}
+                  title="Image"
+                  /> 
+          </Card>
+    )
+  })
+
   
   
   return (
@@ -104,41 +147,13 @@ export default function MediaCard(props) {
 
             Posted By { props.createdby }
             
-          </Typography>
-
-        
-        { 
-
-          /**
-           * * Delete button will only be visible if 
-           * * The creator_id associated with the post is 
-           * * equal to the currently signed in user 
-           */
-          (JSON.parse(localStorage.getItem('profile'))) && 
-          props.creatorid == JSON.parse(localStorage.getItem('profile')).data.user.id  && 
-          
-          <Grid item>
-            <Tooltip title="Delete" arrow placement="right">
-              <DeleteIcon 
-              className={classes.delete__icon}
-              onClick={handleClickOpen}
-              />
-            </Tooltip>
-          </Grid>
-          
-        }
+        </Typography>
         
 
 
       </CardActions>
       <CardActionArea>
-        <Link to={{
-            pathname : '/postpage',
-            state : {
-              id : props.id
-            }
-        }} 
-        style={{ textDecoration : 'none' , color : 'black'}} >
+        
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
               { props.title }
@@ -147,8 +162,18 @@ export default function MediaCard(props) {
               { props.desc }
             </Typography>
           </CardContent>
-        </Link>
-      
+        
+        
+
+
+        {/**
+         * * This is the only way to access the upload 
+         * * Don't try to navigate through directories to reach there
+         */}
+        <div className={classes.files__block}>
+          {files_list}
+        </div>
+        
 
       </CardActionArea>
       

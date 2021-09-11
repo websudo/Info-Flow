@@ -22,9 +22,14 @@ const useStyles = makeStyles({
       marginTop : 90,
       marginBottom : 30
     },
+
     media: {
       height: 140,
     },
+
+    createpost__button:{
+      marginLeft: 'auto',
+    }
   });
 
 
@@ -36,17 +41,6 @@ const useStyles = makeStyles({
     }
   
 
-    const useDidMountEffect = (func, deps) => {
-      const didMount = useRef(false);
-    
-      useEffect(() => {
-        if (didMount.current) {
-          func();
-        } else {
-          didMount.current = true;
-        }
-      }, deps);
-    };
 
 export default function MediaCard() {
 
@@ -61,7 +55,8 @@ export default function MediaCard() {
     const [ refresh , setRefersh ] = useState( true )
     const [ username , setUsername ] = useState({})
     
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    
 
 
     /*if( isLoggedIn ){
@@ -103,10 +98,9 @@ export default function MediaCard() {
     useEffect( () =>{
         async function fetchData(){
             const req = await axios.get('/api/post')
-            console.log( post , req.data)
             if( post != req.data ){
-              console.log( "not same")
-            setPost(req.data)}
+            setPost(req.data)
+          }
         }
 
         fetchData()
@@ -120,9 +114,9 @@ export default function MediaCard() {
 
       if( localStorage.getItem('profile')){
         setIsLoggedIn(true)
-        setUsername(JSON.parse(localStorage.getItem("profile")).data.user.name)
         setOpen(true)
 
+        setUsername(JSON.parse(localStorage.getItem("profile")).data.user.name)
       }
       else{
         setIsLoggedIn(false)
@@ -131,13 +125,12 @@ export default function MediaCard() {
     
 
 
-
     /**
      *  * MAPPING THE RESULTS IN THE REVERSE ORDER 
      * */
 
     let list = post.slice(0).reverse().map( posts => {
-        return <PCard key={posts._id} id={posts._id} title={posts.title} desc={posts.description} date={posts.date} createdby={posts.createdby} creatorid={posts.creator_id} comments={posts.comment} handleRefresh={handleRefresh} />
+        return <PCard key={posts._id} id={posts._id} title={posts.title} desc={posts.description} date={posts.date} createdby={posts.createdby} creatorid={posts.creator_id} comments={posts.comment} handleRefresh={handleRefresh} upload={posts.upload}/>
     })
 
     
@@ -145,13 +138,29 @@ export default function MediaCard() {
         <div className={classes.root}>
           {
             isLoggedIn && 
-            <Button variant="contained" color="primary" onClick={ handleClick}>
-                Create Post
-            </Button>
 
+            <div style={{ display:'flex' }}>
+              <Button 
+                variant="contained" 
+                color="primary" 
+                disabled={isOpenCreatePost}
+                onClick={ handleClick}
+                className={classes.createpost__button}
+                >
+                  Create Post
+              </Button>
+            </div>
           } 
-            { isOpenCreatePost && <CreatePost click_func={handleClick} handleRefresh={handleRefresh}/>}
+
+          { isOpenCreatePost && 
+            <CreatePost 
+              click_func={handleClick} 
+              handleRefresh={handleRefresh}
+            />}
+
+
             {list}
+
 
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="success">

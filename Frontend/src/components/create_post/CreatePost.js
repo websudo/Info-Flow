@@ -1,11 +1,9 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from '../../api/index'
@@ -31,6 +29,37 @@ const useStyles = makeStyles({
         '&:hover': {
             background: '#a6a6a6',
         },
+    },
+
+    title__input:{
+      marginTop:10,
+      marginBottom:10,
+      padding: 10,
+      border : '1px black solid',
+      borderRadius: 4,
+      fontSize: 15,
+    },
+
+    description__input:{
+      marginTop:10,
+      padding: 10,
+      border : '1px black solid',
+      borderRadius: 4,
+      fontSize: 15,
+      height: 150,
+    },
+
+    label__input:{
+      fontWeight: 'bold',
+      fontSize : 17,
+      marginTop: 0
+    },
+
+    post__button:{
+      marginLeft: 'auto',
+      marginRight: 10,
+      marginBottom: 10,
+      width: 70
     }
   });
 
@@ -50,7 +79,9 @@ const useStyles = makeStyles({
       });
     
 
-
+    const [ file , setFile] = useState({
+      files: '',
+    })
 
     /** 
      * ! This is how you should update a object in state,
@@ -59,36 +90,52 @@ const useStyles = makeStyles({
       const handleChange = (prop) => (event) => {
         
         setValues({ ...values, [prop]: event.target.value });
+        
+        if( prop == 'upload'){
+          console.log(event.target.files)
+          setFile( {files : event.target.files})
+        }
       };
-
-
-
 
 
       /** 
      * * SENDING DATA TO THE SERVER IF NEITHER OF THEM IS NULL
      * */
-      const handleSubmit = () =>{
-          if( values.title && values.description){
-              axios.post( '/api/post' , values )
-              .then( res => {
-                console.log(res);
+      const handleSubmit = (e) =>{
+          e.preventDefault();
 
-                /**
-                 * * On Successfull Posting close the dialog box 
-                 */
-                click_func();
+          if( values.title && values.description && file.files){
 
-                /**
-                 * * On Successfull Posting Fetch the data from api 
-                 */
-                handleRefresh();
-              })
+            const formData = new FormData();
+            formData.append("creator_id",values.creator_id);
+            formData.append("createdby",values.createdby);
+            formData.append("title",values.title);
+            formData.append("description",values.description);
+            
+            const n = file.files.length;
+            for( var i=0 ; i < n ; i++){
+              formData.append("upload",file.files[i]);
+            }
+            
+
+            console.log( formData.get('upload'))
+
+            axios.post('/api/post', formData)
+            .then( res => {
+            
+              console.log(res);
+              click_func();
+              //handleRefresh();
+            })
+            /*.catch( err => {
+              console.log(err)
+            })*/
+            
           }
-
           else{
-              console.log( " Parameters missing ")
+            console.log( "Parameter missing")
           }
+
       }
 
  
@@ -99,23 +146,29 @@ const useStyles = makeStyles({
             <CloseIcon  onClick={() => click_func()} className={classes.close__icon}/>
         </CardActions>
         
+
+        {/**
+         * ! Remember to use encType while using formData 
+         */}
+        <form onSubmit={handleSubmit} encType="multipart/form-data"> 
+
         <CardContent>
+
+
         <FormControl fullWidth className={classes.margin}>
-        <InputLabel htmlFor="title">Title</InputLabel>
-          <Input
-            id="title"
-            onChange={handleChange('title')}
-          />
-          
+
+        <label htmlFor='title' className={classes.label__input}>Title</label>
+        <input className={classes.title__input} id="title" onChange={handleChange('title')} placeholder="Title of Post" ></input>  
         </FormControl>
         
+
+
         <FormControl fullWidth className={classes.margin}>
-        
-          <InputLabel htmlFor="desc">Description</InputLabel>
-          <Input
-            id="desc"
-            onChange={handleChange('description')}
-          />
+       
+        <label htmlFor='desc' className={classes.label__input}>Description</label>
+        <textarea className={classes.description__input} id="desc" onChange={handleChange('description')} placeholder="Description of Post" ></textarea> 
+
+        <input type='file' filename="upload" onChange={handleChange('upload')} multiple></input>
         </FormControl>
 
         
@@ -126,11 +179,15 @@ const useStyles = makeStyles({
         <Button 
             size="small" 
             color="primary"
-            onClick = { handleSubmit }
+            variant="contained"
+            type="submit"
+            className={classes.post__button}
             >
             Post
         </Button>
         </CardActions>
+
+        </form>
     </Card>
   );
 }

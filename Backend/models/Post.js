@@ -22,6 +22,10 @@ const postSchema = mongoose.Schema({
 		default : ""
 	},
 
+	upload:[{
+		type: String,
+	}],
+
 	comment : [
 		{
 
