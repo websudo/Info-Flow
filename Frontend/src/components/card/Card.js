@@ -52,6 +52,10 @@ const useStyles = makeStyles({
 
   user__name: {
     marginRight: 'auto',
+  },
+
+  card__content:{
+    backgroundColor: '#fafafa',
   }
 });
 
@@ -139,7 +143,7 @@ export default function MediaCard(props) {
             }
         }} 
         style={{ textDecoration : 'none' , color : 'black'}} >
-          <CardContent>
+          <CardContent className={ classes.card__content}>
             <Typography gutterBottom variant="h5" component="h2">
               { props.title }
             </Typography>

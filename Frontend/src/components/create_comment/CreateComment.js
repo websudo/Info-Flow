@@ -52,7 +52,8 @@ const useStyles = makeStyles({
       marginLeft: 'auto',
       marginRight: 10,
       marginBottom: 10,
-      width: 70
+      width: 70,
+      textTransform: 'none',
     }
 
   });
@@ -171,6 +172,7 @@ const useStyles = makeStyles({
             onClick = { handleSubmit }
             className={classes.post__button}
             variant='contained'
+            disableElevation
             >
             Post
         </Button>

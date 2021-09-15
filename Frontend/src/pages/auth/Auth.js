@@ -9,6 +9,7 @@ import Signup from '../../components/signup/SignUp'
 import Typography from '@material-ui/core/Typography';
 import {Link} from 'react-router-dom'
 import './Auth.css'
+import logoname from '../../assets/logo/logoname2.png'
 
 const useStyles = makeStyles((theme) => ({
     body:{
@@ -42,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
     },
 
     auth__logo: {
-        color: 'white'
+        maxWidth: 600,
+
     },
 
 
@@ -76,9 +78,10 @@ export default function Auth() {
         <div className={classes.auth__main}>
 
             <Link to='/' style={{ textDecoration : 'none'}}>
-                <Typography variant="h1" component="h2" gutterBottom className={classes.auth__logo}>
+                {/*<Typography variant="h1" component="h2" gutterBottom className={classes.auth__logo}>
                     Info-Flow
-                </Typography>
+                </Typography>*/}
+                <img className={classes.auth__logo} src={logoname}></img>
             </Link>
             
 

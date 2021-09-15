@@ -49,6 +49,10 @@ const useStyles = makeStyles({
   divider: {
     marginLeft: '0.5rem',
     marginRight: '0.5rem'
+  },
+
+  card__content:{
+    backgroundColor: '#fafafa',
   }
 });
 
@@ -102,12 +106,12 @@ export default function MediaCard(props) {
   
       </CardActions>
 
-      <Divider className={classes.divider}/>
+
 
 
       <CardActionArea>
         
-          <CardContent>
+          <CardContent className={classes.card__content}>
             <Typography variant="body1" color="textPrimary" component="p">
               { props.comment }
             </Typography>
@@ -116,7 +120,7 @@ export default function MediaCard(props) {
       </CardActionArea>
       
 
-      <Divider className={classes.divider}/>
+
 
 
       <CardActions>

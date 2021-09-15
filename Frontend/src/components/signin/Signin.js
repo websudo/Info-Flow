@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
                         /**
                          * * Redirecting back to the Homepage after Successfull Login
                          */
-                        history.push( '/' )
+                        history.push( '/home' )
                         
                         
                     }

@@ -56,8 +56,17 @@ const useStyles = makeStyles({
     marginRight: 'auto',
   },
 
+  attach__image:{
+    width: 220,
+    marginLeft: 20,
+    marginBottom:20,
+    
+    //backgroundColor: '#5c5c5c',
+  },
+
+
   attach__file:{
-    height: 220,
+    maxHeight: 50,
     width: 220,
     marginLeft: 20,
     marginBottom:20,
@@ -66,7 +75,12 @@ const useStyles = makeStyles({
 
   files__block:{
     display: 'flex'
+  },
+
+  card__content:{
+    backgroundColor: '#fafafa',
   }
+  
 });
 
 
@@ -114,28 +128,79 @@ export default function MediaCard(props) {
   }
 
   const files_list = props.upload && props.upload.map( (file) => {
-    return (
-      <Card className={classes.attach__file}>
-            <CardHeader
-              action={
-                <IconButton aria-label="Download">
-                  <GetAppIcon 
-                    onClick={handleDownload(`/uploads/${file}`)} 
-                    style={{ margin: '0' , height: '60' , width : '60' }}
-                    fontSize='small'
-                    />
-                </IconButton>
-              }
+    let file_extension = file.split('.').pop();
+    console.log( file_extension)
+   
+    if( file_extension == 'jpg' || file_extension == 'jpeg' || file_extension == 'png'){
+     
+            return (
+              <Card className={classes.attach__image}>
+                    {/*<CardHeader
+                      action={
+                        <IconButton aria-label="Download">
+                          <GetAppIcon 
+                            onClick={handleDownload(`/uploads/${file}`)} 
+                            style={{ margin: '0' , height: '60' , width : '60' }}
+                            fontSize='small'
+                            />
+                        </IconButton>
+                      }
 
-              style={{ height : '50px' , marginTop: '0', paddingBottom:'0'}}
-            />
-            <CardMedia
-                  className={classes.media}
-                  image={`/uploads/${file}`}
-                  title="Image"
-                  /> 
-          </Card>
-    )
+                      subheader={file}
+                      style={{ height : '50px' , marginTop: '0', paddingBottom:'0', border:'1px solid black'}}
+                    />*/}
+
+                      <CardContent  style={{display: 'flex' ,  width:'100%' , height:'50px' , overflow:'hidden', marginBottom: '10px'}}>
+                          <Typography gutterBottom variant="b5">
+                            {file}
+                          </Typography>
+                          
+                      
+                            
+                            <GetAppIcon 
+                            onClick={handleDownload(`/uploads/${file}`)} 
+                            style={{ marginLeft: 'auto' , marginRight: '0px' , height: '20px' , width : '20px' }}
+                            fontSize='small'
+                            />
+                           
+                          
+                      </CardContent>
+
+                      
+                    <CardMedia
+                          className={classes.media}
+                          image={`/uploads/${file}`}
+                          title="Image"
+                          /> 
+                  </Card>
+            )
+          }
+        
+
+        else{
+          console.log( "file here");
+          return(
+          <Card className={classes.attach__file}>
+                    <CardContent  style={{display: 'flex',  width:'100%' , height:'50px' , overflow:'hidden' }}>
+                          <Typography gutterBottom variant="b5">
+                            {file}
+                          </Typography>
+                          
+                      
+                            
+                            <GetAppIcon 
+                            onClick={handleDownload(`/uploads/${file}`)} 
+                            style={{ marginLeft: 'auto' , height: '20px' , width : '20px' }}
+                            fontSize='small'
+                            />
+                            
+                          
+                      </CardContent>
+
+                   
+                  </Card>
+          )
+        }
   })
 
   
@@ -152,9 +217,9 @@ export default function MediaCard(props) {
 
 
       </CardActions>
-      <CardActionArea>
+      <CardActionArea className={classes.card__content} >
         
-          <CardContent>
+          <CardContent  >
             <Typography gutterBottom variant="h5" component="h2">
               { props.title }
             </Typography>

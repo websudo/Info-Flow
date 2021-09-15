@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
+import logo from '../../assets/logo/logoname3.png'
 
 
 /**
@@ -149,8 +150,8 @@ const Navbar = () => {
         <div>
         
             <nav className="navbar">
-                <Link to = '/' className="brand-title">
-                    Info-Flow
+                <Link to = '/home' className="brand-title">
+                    <img src={logo}></img>
                 </Link>
                 <a href="#" className="toggle-button">
                 <span className="bar"></span>

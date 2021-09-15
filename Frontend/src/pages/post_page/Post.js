@@ -32,7 +32,8 @@ const useStyles = makeStyles({
 
     comment__button:{
         marginTop : 20,
-        marginLeft : 'auto'
+        marginLeft : 'auto',
+        textTransform: 'none'
     }
   });
 
@@ -158,7 +159,9 @@ export default function Post() {
                       color="primary" 
                       className={ classes.comment__button} 
                       disabled={isOpenCreateComment}
-                      onClick={ handleClick}>
+                      onClick={ handleClick}
+                      disableElevation
+                      >
                         Post Comment
                     </Button>
                     </Link>

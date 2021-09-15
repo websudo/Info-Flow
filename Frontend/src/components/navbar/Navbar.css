@@ -21,12 +21,18 @@ body {
 
 
 .brand-title {
-    font-size: 1.5rem;
+    /*font-size: 1.5rem;
     margin: .5rem;
     text-decoration: none;
-    color: white;
+    color: white;*/
 }
 
+.brand-title img{
+    max-width: 150px;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 .navbar-links {
     height: 100%;
 }

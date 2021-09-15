@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 
     createpost__button:{
       marginLeft: 'auto',
+      textTransform: 'none'
     }
   });
 
@@ -146,6 +147,7 @@ export default function MediaCard() {
                 disabled={isOpenCreatePost}
                 onClick={ handleClick}
                 className={classes.createpost__button}
+                disableElevation
                 >
                   Create Post
               </Button>
