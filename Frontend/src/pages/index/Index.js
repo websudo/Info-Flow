@@ -126,7 +126,9 @@ export default function Index() {
                  * * decodedToken.exp will be in ms so multiplying it by 1000
                  */
                 if( decodedToken.exp * 1000 < new Date().getTime()){
-                    
+
+                    localStorage.clear();
+                    setOpen(true);
                     setIsLoggedIn( {
                         loggedin : false,
                         name : ""

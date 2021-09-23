@@ -3,6 +3,7 @@ import Home from './pages/home/Home'
 import Auth from './pages/auth/Auth'
 import Post from './pages/post_page/Post';
 import Index from './pages/index/Index'
+import Chat from './pages/chat/Chat'
 import { BrowserRouter as Router , Switch , Route, Link } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './store'
@@ -20,6 +21,10 @@ function App() {
 
           <Route path='/home'>
             <Home />
+          </Route>
+
+          <Route path='/chat'>
+            <Chat/>
           </Route>
           
           <Route path='/auth'>

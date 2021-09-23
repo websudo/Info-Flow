@@ -9,7 +9,10 @@ dotenv.config()
 
 //import Routes
 const postRoute = require('./routes/api/post')
+const userRoute = require('./routes/api/users')
 const userAuth  = require('./routes/api/auth')
+const conversationRoute = require('./routes/api/conversation')
+const messageRoute = require('./routes/api/messages')
 
 // app 
 const app = express();
@@ -20,7 +23,10 @@ app.use(cors())
 
 //Routes Middleware
 app.use('/api/post' , postRoute)
+app.use('/api/user' , userRoute)
 app.use('/api/auth' , userAuth)
+app.use('/api/conversation' , conversationRoute)
+app.use('/api/messages' , messageRoute)
 
 
 // Database
