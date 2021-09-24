@@ -105,7 +105,7 @@ const useStyles = makeStyles({
       const handleSubmit = (e) =>{
           e.preventDefault();
 
-          if( values.title && values.description && file.files){
+          if(file.files){
 
             const formData = new FormData();
             formData.append("creator_id",values.creator_id);
@@ -126,7 +126,7 @@ const useStyles = makeStyles({
             
               console.log(res);
               click_func();
-              //handleRefresh();
+              handleRefresh();
             })
             /*.catch( err => {
               console.log(err)
@@ -134,7 +134,24 @@ const useStyles = makeStyles({
             
           }
           else{
-            console.log( "Parameter missing")
+            const formData = new FormData();
+            formData.append("creator_id",values.creator_id);
+            formData.append("createdby",values.createdby);
+            formData.append("title",values.title);
+            formData.append("description",values.description);
+            
+           
+
+            axios.post('/api/post', formData)
+            .then( res => {
+            
+              console.log(res);
+              click_func();
+              handleRefresh();
+            })
+            .catch( err => {
+              console.log(err)
+            })
           }
 
       }
@@ -159,7 +176,7 @@ const useStyles = makeStyles({
         <FormControl fullWidth className={classes.margin}>
 
         <label htmlFor='title' className={classes.label__input}>Title</label>
-        <input className={classes.title__input} id="title" onChange={handleChange('title')} placeholder="Title of Post" ></input>  
+        <input className={classes.title__input} id="title" onChange={handleChange('title')} placeholder="Title of Post" required ></input>  
         </FormControl>
         
 
@@ -167,7 +184,7 @@ const useStyles = makeStyles({
         <FormControl fullWidth className={classes.margin}>
        
         <label htmlFor='desc' className={classes.label__input}>Description</label>
-        <textarea className={classes.description__input} id="desc" onChange={handleChange('description')} placeholder="Description of Post" ></textarea> 
+        <textarea className={classes.description__input} id="desc" onChange={handleChange('description')} placeholder="Description of Post"  required></textarea> 
 
         <input type='file' filename="upload" onChange={handleChange('upload')} multiple></input>
         </FormControl>

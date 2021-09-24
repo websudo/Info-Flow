@@ -40,11 +40,12 @@ router.post('/' , auth , upload.array("upload", 10) ,  async (req,res) =>{
     if( req.body._id ){
         Post.findByIdAndUpdate( req.body._id , post , (err , data) =>{
             if( err ){
-                res.status(500).send(err)
+                res.status(500).send(err);
+                console.log('1')
             }
             else{
                 res.status(201).send(data)
-                console.log( "Post route called for updating ")
+                console.log( "2")
             }
         })
     }
@@ -67,22 +68,21 @@ router.post('/' , auth , upload.array("upload", 10) ,  async (req,res) =>{
         }
 
 
-        console.log( newPost.upload)
         
-        newPost
+        /*newPost
         .save()
-        .then( () => res.status(200).send(data) )
-        .catch( (err) => { res.status(500).send(err); console.log("newpost save error") })
+        .then( () => { res.status(200).send(data); console.log('3')})
+        .catch( (err) => { res.status(500).send(err); console.log("4") })*/
         
-        /*
-        Post.create( post , (err , data) =>{
+        
+        Post.create( newPost , (err , data) =>{
             if( err ){
                 res.status(500).send(err)
             }
             else{
                 res.status(200).send(data)
             }
-        })*/
+        })
     }
     
 })
@@ -102,10 +102,12 @@ router.get('/' , (req,res) => {
     console.log( " Get route called ")
     Post.find( (err , data) =>{
         if( err ){
-            res.status(500).send(err)
+            res.status(500).send(err);
+            console.log('5')
         }
         else{
-            res.status(200).send(data)
+            res.status(200).send(data);
+            console.log('6')
         }
     })
 })
@@ -122,16 +124,18 @@ router.delete('/' , auth , async (req,res) => {
 
     const id = req.body.id
 
-    console.log( " Delete Route called ")
+
     /**
      * * Passing the particular id of the post to delete
      */
     Post.deleteOne( { _id : id  } , (err , data) =>{
         if( err ){
             res.status(500).send(err)
+            console.log('7')
         }
         else{
             res.status(200).send(data)
+            console.log('8')
         }
     })
 })

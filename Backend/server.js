@@ -19,7 +19,9 @@ const app = express();
 
 // Middlewares
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+	origin : "*",
+}))
 
 //Routes Middleware
 app.use('/api/post' , postRoute)
