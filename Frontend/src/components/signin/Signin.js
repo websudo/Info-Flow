@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect , useRef} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch  } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -13,12 +13,28 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import clsx from 'clsx';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import CircularProgress from '@mui/material/CircularProgress';
+import Loading from '../loading/Loading';
+
 
 /**
  * * Snackbar Imports 
  */
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+
+
+const useDidMountEffect = (func, deps) => {
+    const didMount = useRef(false);
+  
+    useEffect(() => {
+      if (didMount.current) {
+        func();
+      } else {
+        didMount.current = true;
+      }
+    }, deps);
+  };
 
 
 
@@ -36,7 +52,8 @@ const useStyles = makeStyles((theme) => ({
     input__field: {
         marginTop: 10,
         marginBottom: 10
-    }
+    },
+
     
   }));
 
@@ -56,7 +73,9 @@ const useStyles = makeStyles((theme) => ({
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const [ loggedIn , setLoggedIn ] = useState({} )
+    const [ loggedIn , setLoggedIn ] = useState({} );
+    const [ loading , setLoading ] = useState(false);
+    const [ alwaysFalse , setAlwaysFalse ] = useState( false);
 
 
     const [ values , setValues ] = useState({
@@ -98,6 +117,9 @@ const useStyles = makeStyles((theme) => ({
       
 
     const handleSubmit = () => {
+
+        setLoading(true);
+  
         if( values.email && values.password){
             axios.post('/api/auth/login' , values)
             .then( res => 
@@ -116,7 +138,9 @@ const useStyles = makeStyles((theme) => ({
                         
                         
                     }
-                    console.log(res)
+                    console.log(res);
+                    setLoading(false);
+               
                 }
             )
             .catch(err => {
@@ -125,6 +149,10 @@ const useStyles = makeStyles((theme) => ({
             })
         }
     }
+
+
+   
+
 
     return (
         <div className={classes.signin__main}>
@@ -179,6 +207,13 @@ const useStyles = makeStyles((theme) => ({
                     </Alert>
                 </Snackbar>
 
+        
+                    {/*<Box sx={{ display: 'flex' }}>
+                        <CircularProgress />
+                </Box>*/}
+
+                    <Loading active={ loading }/>
+                
         </div>
     )
 }

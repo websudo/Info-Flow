@@ -31,6 +31,12 @@ app.use('/api/conversation' , conversationRoute)
 app.use('/api/messages' , messageRoute)
 
 
+// Greeting Route 
+app.get( '/' , (req,res) => {
+	res.send( " Hello to Info-Flow API ")
+})
+
+
 // Database
 const db = process.env.MONGODB_URI
 const port = process.env.PORT || 5000

@@ -119,7 +119,6 @@ const useStyles = makeStyles({
             }
             
 
-            console.log( formData.get('upload'))
 
             axios.post('/api/post', formData)
             .then( res => {
@@ -128,9 +127,9 @@ const useStyles = makeStyles({
               click_func();
               handleRefresh();
             })
-            /*.catch( err => {
+            .catch( err => {
               console.log(err)
-            })*/
+            })
             
           }
           else{

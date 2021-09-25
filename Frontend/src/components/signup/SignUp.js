@@ -13,6 +13,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import clsx from 'clsx';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Loading from '../loading/Loading';
 
 const useStyles = makeStyles((theme) => ({
     
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     const classes = useStyles();
     const history = useHistory();
 
+    const [ loading , setLoading ] = useState(false);
     const [ values , setValues ] = useState({
         name : "",
         email : "",
@@ -61,6 +63,8 @@ const useStyles = makeStyles((theme) => ({
 
 
     const handleRegister= () => {
+
+        setLoading(true);
         if( values.name && values.email && values.password && values.password_confirmation){
             axios.post( '/api/auth/register' , values )
             .then( res => {
@@ -70,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
                  * * Force Reloading the page after Sign Up 
                  * * So that the Sign in page is promted 
                  */
+                setLoading(false);
                 window.location.reload(false);
             })
         }
@@ -164,6 +169,8 @@ const useStyles = makeStyles((theme) => ({
                 >
                     Register
                 </Button>
+
+                <Loading active={loading}/>
         </div>
     )
 }

@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import CreatePost from '../create_post/CreatePost'
 import { useLocation  } from 'react-router';
+import Loading from '../loading/Loading';
 
 /**
  * * Snackbar Imports 
@@ -50,7 +51,7 @@ export default function MediaCard() {
     const location = useLocation();
 
     const [ isLoggedIn , setIsLoggedIn ] = useState(false)
-
+    const [ loading , setLoading ]= useState(false);
     const [ post , setPost ] = useState([])
     const [ isOpenCreatePost , setIsOpenCreatePost ] = useState(false)
     const [ refresh , setRefersh ] = useState( true )
@@ -97,8 +98,10 @@ export default function MediaCard() {
     * *FETCHING THE DATA FROM THE API ( /api/post )
     */ 
     useEffect( () =>{
+        setLoading(true);
         async function fetchData(){
             const req = await axios.get('/api/post')
+            setLoading(false);
             if( post != req.data ){
             setPost(req.data)
           }
@@ -154,6 +157,9 @@ export default function MediaCard() {
             </div>
           } 
 
+          <Loading active={loading}/>
+
+          
           { isOpenCreatePost && 
             <CreatePost 
               click_func={handleClick} 
@@ -169,6 +175,8 @@ export default function MediaCard() {
                     Welcome {username }!
                     </Alert>
             </Snackbar>
+
+            
         </div>
   );
 }

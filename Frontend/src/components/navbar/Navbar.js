@@ -166,7 +166,7 @@ const Navbar = () => {
                     <li><a href="#">Home</a></li>
                     <li><a href="#">About</a></li>
                     <Link to = '/auth' style={{ textDecoration : 'none'}}>
-                        <li>Login</li>
+                        <li  style={{ cursor : 'pointer' }}>Login</li>
                     </Link>
                 </ul>
                 </div>
@@ -180,7 +180,7 @@ const Navbar = () => {
                         <li><a href="#">Home</a></li>
                         <li><a href="#">{isLoggedIn.name}</a></li>
                         {/*<Link to = '/auth' onClick={ handleClickOpenLogoutDialog } style={{ textDecoration : 'none'}}>*/}
-                        <li  onClick={ handleClickOpenLogoutDialog } >Logout</li>
+                        <li  onClick={ handleClickOpenLogoutDialog } style={{ cursor : 'pointer' }} >Logout</li>
                         {/*</Link>*/}
                     </ul>
                     </div>
