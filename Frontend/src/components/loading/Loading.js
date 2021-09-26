@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         height: '100vh',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        textAlign: 'center'
+        textAlign: 'center',
+        zIndex: 100,
     },
 
     
@@ -26,6 +27,12 @@ export default function Loading({active}) {
 
     const classes = useStyles();
 
+    const loading__text= [ "Gettings your boat ready to sail" , "Loading up your cargo...", "Preparing for safe exploration...", " Letting that Info flow ", " Keep calm and sail"];
+
+    function randomNumber(min, max) { 
+        return Math.floor(Math.random() * (max - min) + min);
+    } 
+
     useEffect( () => {
         lottie.loadAnimation({
             container: document.querySelector("#loading-icon"),
@@ -33,6 +40,7 @@ export default function Loading({active}) {
           });
     })
 
+    
 
     return (
         <div >
@@ -42,7 +50,7 @@ export default function Loading({active}) {
                    <div id='loading-icon' >
                        
                    </div>
-                   <p className='loading__text'>Loading you up! Please wait.</p>
+                   <p className='loading__text'>{ loading__text[randomNumber(0,4)] }</p>
                 </div>}
         </div>
     )

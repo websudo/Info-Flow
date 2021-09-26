@@ -16,6 +16,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
+import zIndex from '@material-ui/core/styles/zIndex';
 
 /*const WhiteTextTypography = withStyles({
   root: {
@@ -169,12 +170,18 @@ export default function MediaCard(props) {
 
 
 
-
+      
+      {/**
+       * zIndex 7 so as to display it below the loading page
+       */}
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        style={{ 
+          zIndex : '7 !important',
+        }}
       >
         
         <DialogContent>

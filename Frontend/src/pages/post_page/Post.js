@@ -10,6 +10,7 @@ import CommentCard from '../../components/comment-card/CommentCard'
 import Button from '@material-ui/core/Button';
 import axios from '../../api/index'
 import {Link } from 'react-scroll'
+import Loading from '../../components/loading/Loading'
 
 
 const useStyles = makeStyles({
@@ -65,6 +66,7 @@ export default function Post() {
     const [ isOpenCreateComment , setIsOpenCreateComment ] = useState(false)
     const [ list , setList ] = useState([])
     const [ comments , setComments ] = useState({})
+    const [ loading , setLoading ] = useState(false);
 
 
      /** 
@@ -91,10 +93,12 @@ export default function Post() {
 
 
       useEffect( () =>{
-        console.log( " Hello ")
+        
+        setLoading(true);
         async function fetchData(){
             const req = await axios.get('/api/post')
-            console.log( state.id , post , req.data)
+            
+            setLoading(false);
 
             req.data.map( item => {
               console.log(item._id)
@@ -167,6 +171,7 @@ export default function Post() {
                     </Link>
                     }
                     <div id="bottom"></div>
+                    <Loading active={loading}/>
                 </div>
             </div>
         </div>

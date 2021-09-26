@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from '../../api/index'
+import FileBase from 'react-file'
 
 
 const useStyles = makeStyles({
