@@ -23,8 +23,10 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 'auto',
         marginRight: 'auto',
         ['@media (max-width: 420px)']:{
-            marginBottom: 20,
+            marginTop: 30,
+            maxHeight: 450,
         },
+        
     },
 
     auth__card__header:{
@@ -41,9 +43,10 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         backgroundImage: 'url("https://images.unsplash.com/photo-1596638787647-904d822d751e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1462&q=80")',
         height : '100vh',
-        paddingTop: 150,
+        paddingTop: 100,
         backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover'
+        backgroundSize: 'cover',
+        
     },
 
     auth__logo: {
