@@ -163,7 +163,7 @@ const Navbar = () => {
                     !isLoggedIn.loggedin &&
                 <div className="navbar-links">
                 <ul>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="#">About</a></li>
                     <Link to = '/auth' style={{ textDecoration : 'none'}}>
                         <li  style={{ cursor : 'pointer' }}>Login</li>

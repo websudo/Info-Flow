@@ -22,7 +22,9 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: 300,
         marginLeft: 'auto',
         marginRight: 'auto',
-      
+        ['@media (max-width: 420px)']:{
+            marginBottom: 20,
+        },
     },
 
     auth__card__header:{

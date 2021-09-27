@@ -188,7 +188,7 @@ export default function Index() {
 
                 { isLoggedIn.loggedin && 
                     <div>
-                        <Link to='/home'>
+                        <Link to='/home' style={{ textDecoration : 'none' , color: 'white'}}>
                             <Button variant="contained" color="primary" className={classes.button} disableElevation>
                                 Continue to Homepage
                             </Button>
