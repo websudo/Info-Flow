@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from '../../api/index'
-import FileBase from 'react-file'
+import FileBase from 'react-file-base64'
 
 
 const useStyles = makeStyles({
@@ -107,7 +107,7 @@ const useStyles = makeStyles({
           e.preventDefault();
 
           if(file.files){
-
+            
             const formData = new FormData();
             formData.append("creator_id",values.creator_id);
             formData.append("createdby",values.createdby);
@@ -187,6 +187,7 @@ const useStyles = makeStyles({
         <textarea className={classes.description__input} id="desc" onChange={handleChange('description')} placeholder="Description of Post"  required></textarea> 
 
         <input type='file' filename="upload" onChange={handleChange('upload')} multiple></input>
+        
         </FormControl>
 
         
