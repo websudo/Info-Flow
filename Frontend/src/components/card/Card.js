@@ -31,7 +31,12 @@ const useStyles = makeStyles({
     marginTop : 20,
     //backgroundColor: '#333',
     //color: 'white'
+    ['@media (max-width: 420px)']:{
+        marginLeft: 15,
+        marginRight: 15,
+    },
   },
+
   media: {
     height: 140,
   },

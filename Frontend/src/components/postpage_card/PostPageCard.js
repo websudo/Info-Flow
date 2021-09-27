@@ -35,6 +35,10 @@ const useStyles = makeStyles({
     marginTop : 20,
     //backgroundColor: '#333',
     //color: 'white'
+    ['@media (max-width: 420px)']:{
+      marginLeft: 15,
+      marginRight: 15,
+    },
   },
 
   media: {
@@ -71,10 +75,12 @@ const useStyles = makeStyles({
     marginLeft: 20,
     marginBottom:20,
     //backgroundColor: '#5c5c5c',
+    
   },
 
   files__block:{
-    display: 'flex'
+    display: 'flex',
+    flexWrap: 'wrap',
   },
 
   card__content:{

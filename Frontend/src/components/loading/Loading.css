@@ -18,3 +18,15 @@
     margin-right: auto;
     margin-top: 40vh;
 }
+
+@media (max-width: 420px){
+    #loading-icon{
+        margin-top: 30vh;
+        width: 150;
+    }
+
+    .loading__text{
+        font-size: 20px;
+        font-weight: 400;
+    }
+}

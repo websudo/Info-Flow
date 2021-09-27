@@ -30,7 +30,10 @@ const useStyles = makeStyles({
 
     createpost__button:{
       marginLeft: 'auto',
-      textTransform: 'none'
+      textTransform: 'none',
+      ['@media (max-width: 420px)']:{
+        marginRight: 15,
+      },
     }
   });
 

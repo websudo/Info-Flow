@@ -17,9 +17,11 @@ const useStyles = makeStyles((theme) => ({
     },
 
     root: {
-      maxWidth: 500,
-      marginLeft: 'auto',
-      marginRight: 'auto',
+        
+        marginTop: 50,
+        maxWidth: 300,
+        marginLeft: 'auto',
+        marginRight: 'auto',
       
     },
 
@@ -44,7 +46,9 @@ const useStyles = makeStyles((theme) => ({
 
     auth__logo: {
         maxWidth: 600,
-
+        ['@media (max-width : 420px)'] :{
+            maxWidth: 250,
+        },
     },
 
 

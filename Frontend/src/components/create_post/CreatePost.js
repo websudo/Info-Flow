@@ -13,8 +13,13 @@ import FileBase from 'react-file-base64'
 const useStyles = makeStyles({
     root: {
       maxWidth: '100%',
-      marginTop : 20
+      marginTop : 20,
+      ['@media (max-width: 420px)']:{
+        marginLeft: 15,
+        marginRight: 15,
+      },
     },
+
     media: {
       height: 140,
     },

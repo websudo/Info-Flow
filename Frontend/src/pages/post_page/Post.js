@@ -28,13 +28,20 @@ const useStyles = makeStyles({
     comment__area:{
         marginTop: 50,
         display : 'flex',
-        flexDirection : 'column'
+        flexDirection : 'column',
+        ['@media (max-width: 420px)']:{
+          marginLeft: 15,
+          marginRight: 15,
+      },
     },
 
     comment__button:{
         marginTop : 20,
         marginLeft : 'auto',
-        textTransform: 'none'
+        textTransform: 'none',
+        ['@media (max-width: 420px)']:{
+          marginRight: 5,
+      },
     }
   });
 
