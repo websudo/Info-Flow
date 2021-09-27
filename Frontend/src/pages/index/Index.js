@@ -28,6 +28,10 @@ const useStyles = makeStyles({
     main__logo:{
         marginTop: 120,
         maxWidth: 600,
+        ['@media (max-width : 420px)'] :{
+            marginTop: 80,
+            maxWidth: 250,
+        },
     },
 
     main__text:{
@@ -53,10 +57,16 @@ const useStyles = makeStyles({
 
     features__icon:{
         maxWidth: 150,
+        ['@media (max-width : 420px)']: {
+            maxWidth: 50,
+        },
     },
 
     feature__div:{
         maxWidth: 200,
+        ['@media (max-width : 420px)']: {
+            maxWidth: 70,
+        },
     },
 
     features:{
@@ -162,13 +172,13 @@ export default function Index() {
 
                 { !isLoggedIn.loggedin && 
                     <div>
-                        <Link to='/auth'>
+                        <Link to='/auth' style={{ textDecoration : 'none' , color: 'white'}}>
                             <Button variant="contained" color="primary" className={classes.button} disableElevation>
                                 Sign In 
                             </Button>
                         </Link>
 
-                        <Link to='/home'>
+                        <Link to='/home' style={{ textDecoration : 'none' , color: 'black'}}>
                             <Button variant="contained"  className={classes.button} disableElevation>
                                 Continue without Signing In    
                             </Button>

@@ -9,3 +9,9 @@
     line-height: 150%;
     letter-spacing: 0.15%;
 }
+
+@media (max-width: 420px) {
+    .footer__title{
+        font-size: 15px;
+    }
+}

@@ -36,3 +36,22 @@
     line-height: 125%;
     letter-spacing: 0.25%;
 }
+
+@media (max-width: 420px) {
+    .main__title{
+        font-size: 25px;
+    }
+
+    .main__desc{
+        font-size: 14px;
+    }
+
+    .features__title{
+        font-size: 15px;
+    }
+
+    .features__text{
+        font-size: 10px;
+    }
+    
+}

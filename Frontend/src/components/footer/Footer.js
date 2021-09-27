@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     main__footer:{
         marginTop: 150,
         width: '100%',
-        height: 320,
+        paddingBottom: 50,
         backgroundColor: '#333',
         paddingTop: 30,
     },
@@ -18,21 +18,28 @@ const useStyles = makeStyles({
     list:{
         color: 'white',
         textAlign: 'start',
+
     },
 
     list__div:{
         marginTop: 60,
         display: 'flex',
         justifyContent: 'space-evenly',
+        flexWrap: 'wrap',
     },
 
     contact__icon:{
         maxWidth: 40,
         marginRight: 20,
+        marginLeft: 20,
+        ['@media (max-width: 420)']:{
+            width: 20,
+        },
     },
 
     contact__list:{
         color: 'white',
+
     },
 
     contact__icon__div:{
@@ -41,7 +48,10 @@ const useStyles = makeStyles({
 
     footer__list__item:{
         textDecoration: 'none',
-        color: 'white'
+        color: 'white',
+        ['@media (max-width: 420)']:{
+            fontSize: 25,
+        },
     }
   });
 
