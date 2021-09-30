@@ -19,12 +19,13 @@ const useStyles = makeStyles((theme) => ({
     root: {
         
         marginTop: 50,
-        maxWidth: 300,
+        maxWidth: 450,
         marginLeft: 'auto',
         marginRight: 'auto',
         ['@media (max-width: 420px)']:{
             marginTop: 30,
             maxHeight: 450,
+            maxWidth: 300,
         },
         
     },
