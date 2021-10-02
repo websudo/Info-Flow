@@ -168,11 +168,12 @@ const useStyles = makeStyles((theme) => ({
                     shrink: true,
                   }}
                 onChange={handleChange('email')}
+                required
                 />
 
                 <FormControl className={clsx(classes.margin, classes.textField , classes.input__field)} variant="outlined">
                 <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                        <OutlinedInput
+                    <OutlinedInput
                     id="outlined-adornment-password"
                     type={values.showPassword ? 'text' : 'password'}
                     value={values.password}
@@ -189,6 +190,7 @@ const useStyles = makeStyles((theme) => ({
                         </IconButton>
                     </InputAdornment>
                     }
+                    required
                     labelWidth={70}
                 />
                         </FormControl>

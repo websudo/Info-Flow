@@ -1,4 +1,4 @@
-import React, {useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -6,10 +6,22 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Signin from '../../components/signin/Signin'
 import Signup from '../../components/signup/SignUp'
-import Typography from '@material-ui/core/Typography';
 import {Link} from 'react-router-dom'
 import './Auth.css'
 import logoname from '../../assets/logo/logoname2.png'
+
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+
+
+ /**
+   * * Alert Function 
+   */
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 
 const useStyles = makeStyles((theme) => ({
     body:{
@@ -68,6 +80,17 @@ export default function Auth() {
 
     const [isSignIn , setIsSignIn] = useState(true)
     const [isSignUp , setIsSignUp] = useState(false)
+    const [ status , setStatus ] = useState(false)
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpen(false);
+    };
+
 
     const handleClick = (props) => {
         if( props == 'signin'){
@@ -83,6 +106,17 @@ export default function Auth() {
             }
         }
     }
+
+
+    const handleSignUpAlert = (status) => {
+        console.log(status);
+        setStatus(true);
+    }
+
+    useEffect( () => {
+        setOpen(status)
+        console.log( status)
+    })
 
     return (
         <div className={classes.auth__main}>
@@ -107,8 +141,14 @@ export default function Auth() {
                 <Divider className={classes.divider}></Divider>
 
                 { isSignIn && <Signin />}
-                { isSignUp && <Signup />}
+                { isSignUp && <Signup  signupStatus={handleSignUpAlert}/>}
             </Card>
+
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                            <Alert onClose={handleClose} severity="success">
+                            Account created! Login to continue.
+                            </Alert>
+                </Snackbar>
         </div>
     )
 }

@@ -8,12 +8,16 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import clsx from 'clsx';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Loading from '../loading/Loading';
+
+
+
+
+
 
 const useStyles = makeStyles((theme) => ({
     
@@ -34,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-  export default function Auth() {
+  export default function Auth({signupStatus}) {
 
     const classes = useStyles();
     const history = useHistory();
@@ -47,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
         password_confirmation: "",
         showPassword : false
     })
+
+    
 
     const handleChange = (props) => (event) => {
         setValues({ ...values, [props] : event.target.value})
@@ -76,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
                  */
                 setLoading(false);
                 window.location.reload(false);
+                signupStatus(true);
             })
         }
 
@@ -99,6 +106,7 @@ const useStyles = makeStyles((theme) => ({
                   }}
 
                 onChange={handleChange('name') }
+                required
                 />
 
 
@@ -113,6 +121,7 @@ const useStyles = makeStyles((theme) => ({
                     shrink: true,
                   }}
                 onChange={ handleChange('email') }
+                required
                 />
 
                 <FormControl className={clsx(classes.margin, classes.textField , classes.input__field)} variant="outlined">
@@ -135,12 +144,13 @@ const useStyles = makeStyles((theme) => ({
                     </InputAdornment>
                     }
                     labelWidth={70}
+                    required
                 />
                         </FormControl>
 
                 <FormControl className={clsx(classes.margin, classes.textField , classes.input__field)} variant="outlined">
                 <InputLabel htmlFor="standard-adornment-password-confirmation">Confirm Password</InputLabel>
-                        <OutlinedInput
+                    <OutlinedInput
                     id="outlined-adornment-password-confirmation"
                     type={values.showPassword ? 'text' : 'password'}
                     value={values.password_confirmation}
@@ -158,6 +168,7 @@ const useStyles = makeStyles((theme) => ({
                     </InputAdornment>
                     }
                     labelWidth={70}
+                    required
                 />
                         </FormControl>
 
@@ -171,6 +182,8 @@ const useStyles = makeStyles((theme) => ({
                 </Button>
 
                 <Loading active={loading}/>
+
+                
         </div>
     )
 }

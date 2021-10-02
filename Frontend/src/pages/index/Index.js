@@ -85,6 +85,11 @@ const useStyles = makeStyles({
         margin: 0,
         width: '100%',
         height: 150,
+        ['@media (max-width: 420px)']:{
+            height: 90,
+            width: 420,
+        }
+        
     }
   });
 
