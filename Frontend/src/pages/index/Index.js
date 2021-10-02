@@ -46,7 +46,9 @@ const useStyles = makeStyles({
         marginBottom: 150,
         paddingLeft: 50,
         paddingRight: 50,   
-        
+        ['@media (max-width : 420px)']: {
+            marginBottom: 120,
+        },
     },
 
     button:{
@@ -65,7 +67,8 @@ const useStyles = makeStyles({
     feature__div:{
         maxWidth: 200,
         ['@media (max-width : 420px)']: {
-            maxWidth: 70,
+            maxWidth: 120,
+            marginTop: 30,
         },
     },
 
@@ -78,7 +81,12 @@ const useStyles = makeStyles({
         paddingRight: 50,
         marginLeft: 'auto',
         marginRight: 'auto',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+
+        ['@media (max-width : 420px)']: {
+            marginTop: 120,
+        },
     },
 
     header__image:{
