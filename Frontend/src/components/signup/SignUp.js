@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
                  * * So that the Sign in page is promted 
                  */
                 setLoading(false);
-                history.push('/auth');
+                window.location.reload(false);
             })
         }
 
