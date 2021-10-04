@@ -177,7 +177,7 @@ const Navbar = () => {
                     isLoggedIn.loggedin &&
                     <div className="navbar-links">
                     <ul>
-                        <li><a href="#">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a href="#">{isLoggedIn.name}</a></li>
                         {/*<Link to = '/auth' onClick={ handleClickOpenLogoutDialog } style={{ textDecoration : 'none'}}>*/}
                         <li  onClick={ handleClickOpenLogoutDialog } style={{ cursor : 'pointer' }} >Logout</li>
