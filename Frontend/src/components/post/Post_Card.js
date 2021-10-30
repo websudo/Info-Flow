@@ -163,9 +163,14 @@ export default function MediaCard() {
           async function fetchData(){
               const req = await axios.get('/api/post')
               setLoading(false);
-
+              
+              const _value = value.toLowerCase();
               let search_results = req.data.filter( item => {
-                if( item.title.includes(value) || item.description.includes(value) || item.createdby.includes(value)){
+                const title = item.title.toLowerCase();
+                const description = item.description.toLowerCase();
+                const createdby = item.createdby.toLowerCase();
+                
+                if( title.includes(_value) || description.includes(_value) || createdby.includes(_value)){
                   return item;
                 }
               })
