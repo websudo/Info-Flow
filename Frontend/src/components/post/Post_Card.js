@@ -13,6 +13,8 @@ import Loading from '../loading/Loading';
  import Snackbar from '@material-ui/core/Snackbar';
  import MuiAlert from '@material-ui/lab/Alert';
 
+import SearchBar from 'material-ui-search-bar';
+
 
 
 const useStyles = makeStyles({
@@ -20,7 +22,7 @@ const useStyles = makeStyles({
       maxWidth: 700,
       marginLeft : 'auto',
       marginRight : 'auto',
-      marginTop : 90,
+      marginTop : 60,
       marginBottom : 30
     },
 
@@ -34,6 +36,10 @@ const useStyles = makeStyles({
       ['@media (max-width: 420px)']:{
         marginRight: 15,
       },
+    },
+
+    searchbar: {
+      marginBottom: 50,
     }
   });
 
@@ -59,10 +65,10 @@ export default function MediaCard() {
     const [ isOpenCreatePost , setIsOpenCreatePost ] = useState(false)
     const [ refresh , setRefersh ] = useState( true )
     const [ username , setUsername ] = useState({})
-    
+  
     const [open, setOpen] = useState(false);
     
-
+    const [ searchValue , setSearchValue ] = useState();
 
     /*if( isLoggedIn ){
       setOpen(true);
@@ -132,6 +138,42 @@ export default function MediaCard() {
     
 
 
+
+    const doSomethingWith = ( value ) => {
+      
+      if( value == ""){
+        setLoading(true);
+        async function fetchData(){
+            const req = await axios.get('/api/post')
+            setLoading(false);
+            if( post != req.data ){
+            setPost(req.data)
+          }
+        }
+
+        fetchData();
+      }
+
+      else{
+        setLoading(true);
+          async function fetchData(){
+              const req = await axios.get('/api/post')
+              setLoading(false);
+
+              let search_results = req.data.filter( item => {
+                if( item.title.includes(value) || item.description.includes(value) || item.createdby.includes(value)){
+                  return item;
+                }
+              })
+              setPost(search_results);
+          }
+
+          fetchData();
+      }
+    }
+
+
+
     /**
      *  * MAPPING THE RESULTS IN THE REVERSE ORDER 
      * */
@@ -143,6 +185,17 @@ export default function MediaCard() {
     
   return (
         <div className={classes.root}>
+
+        <SearchBar
+            value={searchValue}
+            onChange={(newValue) => setSearchValue(newValue)}
+            onRequestSearch={() => doSomethingWith(searchValue)}
+            onCancelSearch ={  
+              () => setSearchValue("")
+            }
+            className={classes.searchbar}
+          />
+
           {
             isLoggedIn && 
 
@@ -169,8 +222,8 @@ export default function MediaCard() {
               handleRefresh={handleRefresh}
             />}
 
-
             {list}
+            {list.length == 0 && <p style={{ textAlign:'center'}}>No posts found ...</p>}
 
 
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
