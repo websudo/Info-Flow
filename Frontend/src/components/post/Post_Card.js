@@ -40,6 +40,10 @@ const useStyles = makeStyles({
 
     searchbar: {
       marginBottom: 50,
+      ['@media (max-width: 420px)']:{
+        marginLeft: 15,
+        marginRight: 15,
+      },
     }
   });
 
