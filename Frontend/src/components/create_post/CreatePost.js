@@ -1,4 +1,5 @@
-import React,{ useState } from 'react';
+import React,{ useState, useRef, useEffect} from 'react';
+import {useStateWithCallbackLazy} from 'use-state-with-callback'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -7,7 +8,13 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from '../../api/index'
-import FileBase from 'react-file-base64'
+import FileBase from 'react-file-base64';
+import axios_origin from 'axios';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import Grid from '@material-ui/core/Grid';
+import Tooltip from '@material-ui/core/Tooltip';
+
+
 
 
 const useStyles = makeStyles({
@@ -67,12 +74,23 @@ const useStyles = makeStyles({
       marginBottom: 10,
       width: 70,
       textTransform: 'none'
+    },
+
+    file__upload:{
+      cursor: 'pointer',
+    },
+
+    file__upload__icon:{
+      marginTop: 10,
+      width: 50,
+      border: '2px solid black'
     }
   });
 
 
   export default function MediaCard({click_func , handleRefresh}) {
     const classes = useStyles();
+    const isFirstRender = useRef(true);
 
 
     /** 
@@ -83,12 +101,23 @@ const useStyles = makeStyles({
         createdby : JSON.parse(localStorage.getItem('profile')).data.user.name,
         title: '',
         description: '',
+        upload: []
       });
     
 
     const [ file , setFile] = useState({
       files: '',
     })
+
+    useEffect(() => {
+      
+      if( isFirstRender.current){
+        isFirstRender.current = false;
+        return;
+      }
+
+      uploadFile();
+    }, [file])
 
     /** 
      * ! This is how you should update a object in state,
@@ -100,7 +129,7 @@ const useStyles = makeStyles({
         
         if( prop == 'upload'){
           console.log(event.target.files)
-          setFile( {files : event.target.files})
+          setFile( {files : event.target.files});
         }
       };
 
@@ -119,14 +148,19 @@ const useStyles = makeStyles({
             formData.append("title",values.title);
             formData.append("description",values.description);
             
-            const n = file.files.length;
-            for( var i=0 ; i < n ; i++){
-              formData.append("upload",file.files[i]);
-            }
             
+            const n = values.upload.length;
 
-
-            axios.post('/api/post', formData)
+            console.log(values);
+            for( var i =0 ; i<n ; i++){
+              formData.append("upload" , values.upload[i]);
+            }
+           
+            console.log( formData.get("upload"));
+          
+            axios.post('/api/post', values, {
+              headers: { "X-Requested-With": "XMLHttpRequest" },
+            })
             .then( res => {
             
               console.log(res);
@@ -144,9 +178,8 @@ const useStyles = makeStyles({
             formData.append("createdby",values.createdby);
             formData.append("title",values.title);
             formData.append("description",values.description);
-            
-           
 
+            
             axios.post('/api/post', formData)
             .then( res => {
             
@@ -161,6 +194,46 @@ const useStyles = makeStyles({
 
       }
 
+
+      const uploadFile = () => {
+
+        var file_arr = [];
+
+          console.log(file.files);
+
+          const uploaders = Array.prototype.map.call(file.files , async file => {
+
+          const data = new FormData();  
+        
+          data.append("upload_preset","info-flow");
+          data.append("cloud_name", "dguetook9");
+          data.append("resource_type", "raw")
+          data.append("file", file);
+
+
+          return axios_origin.post("https://api.cloudinary.com/v1_1/dguetook9/image/upload", data, {
+              headers: { "X-Requested-With": "XMLHttpRequest" },
+            }).then(response => {
+              const data = response.data;
+              const fileURL = data.secure_url;
+              file_arr.push(fileURL);
+              
+              console.log(fileURL);
+            })
+
+        });
+
+        axios_origin.all(uploaders).then(() => {
+          // ... perform after upload is successful operation
+          console.log(file_arr);
+          setValues({
+            ...values ,  upload : file_arr 
+          });
+
+          console.log(values)
+        });
+        
+      }
  
   return (
         <Card className={classes.root}>
@@ -173,7 +246,7 @@ const useStyles = makeStyles({
         {/**
          * ! Remember to use encType while using formData 
          */}
-        <form onSubmit={handleSubmit} encType="multipart/form-data"> 
+        <form onSubmit={handleSubmit} encType='application/x-www-form-urlencoded' > 
 
         <CardContent>
 
@@ -191,8 +264,23 @@ const useStyles = makeStyles({
         <label htmlFor='desc' className={classes.label__input}>Description</label>
         <textarea className={classes.description__input} id="desc" onChange={handleChange('description')} placeholder="Description of Post"  required></textarea> 
 
-        <input type='file' filename="upload" onChange={handleChange('upload')} multiple></input>
+
         
+        <Grid item>
+            <Tooltip title="Upload" arrow placement="right">
+              <label htmlFor='file__input' className={classes.file__upload}><UploadFileIcon className={classes.file__upload__icon}/></label>
+            </Tooltip>
+        </Grid>
+        <input type='file' id='file__input' filename="upload" accept=".png,.jpg,.jpeg,.pdf,.doc,.ppt,.xlsx,.txt" style={{ display: 'none'}} onChange={handleChange('upload')} multiple></input>
+        
+        
+        {/*<FileBase 
+          type = 'file'
+          multiple = {false}
+          onDone = { ({base64}) => setValues({ ...values ,upload : base64}) }
+        />
+        */}
+
         </FormControl>
 
         

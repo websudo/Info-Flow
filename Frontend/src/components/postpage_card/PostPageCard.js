@@ -20,6 +20,14 @@ import download from 'downloadjs'
 import IconButton from '@material-ui/core/IconButton';
 import CardHeader from '@material-ui/core/CardHeader';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import Collapse from '@mui/material/Collapse';
+import Avatar from '@mui/material/Avatar';
+import { red } from '@mui/material/colors';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import DownloadIcon from '@mui/icons-material/ArrowDownward';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { styled } from '@mui/material/styles';
 
 /*const WhiteTextTypography = withStyles({
   root: {
@@ -61,8 +69,9 @@ const useStyles = makeStyles({
   },
 
   attach__image:{
-    width: 220,
-    marginLeft: 20,
+    height: 200,
+    maxWidth: 260,
+    marginLeft: 15,
     marginBottom:20,
     
     //backgroundColor: '#5c5c5c',
@@ -70,9 +79,9 @@ const useStyles = makeStyles({
 
 
   attach__file:{
-    maxHeight: 50,
-    width: 220,
-    marginLeft: 20,
+    height: 200,
+    maxWidth: 260,
+    marginLeft: 15,
     marginBottom:20,
     //backgroundColor: '#5c5c5c',
     
@@ -93,6 +102,9 @@ const useStyles = makeStyles({
 
 
 export default function MediaCard(props) {
+
+ 
+
   const classes = useStyles();
   console.log(props)
 
@@ -134,77 +146,78 @@ export default function MediaCard(props) {
   }
 
   const files_list = props.upload && props.upload.map( (file) => {
-    let file_extension = file.split('.').pop();
+    let file_extension = file.split('.').pop().toLowerCase();
+    let file_name = file.split("/").pop().slice(0,25);
+    var file_icon = {
+      'pdf' : 'https://cdn-icons-png.flaticon.com/512/337/337946.png',
+      'doc' : 'https://cdn-icons-png.flaticon.com/512/337/337932.png',
+      'docx' : 'https://cdn-icons-png.flaticon.com/512/337/337932.png',
+      'ppt' : 'https://cdn-icons-png.flaticon.com/512/337/337949.png',
+      'pptx' : 'https://cdn-icons-png.flaticon.com/512/337/337949.png',
+      'txt' : 'https://cdn-icons-png.flaticon.com/512/337/337956.png'
+    }
     console.log( file_extension)
    
     if( file_extension == 'jpg' || file_extension == 'jpeg' || file_extension == 'png'){
      
             return (
-              <Card className={classes.attach__image}>
-                    {/*<CardHeader
-                      action={
-                        <IconButton aria-label="Download">
-                          <GetAppIcon 
-                            onClick={handleDownload(`/uploads/${file}`)} 
-                            style={{ margin: '0' , height: '60' , width : '60' }}
-                            fontSize='small'
-                            />
-                        </IconButton>
-                      }
+                <Card className={classes.attach__image}>
+                <CardHeader
+                  action={
+                    <Grid item>
+                    <Tooltip title="Download" arrow placement="right">
+                      <IconButton
+                      aria-label="settings"
+                      onClick={handleDownload(file)} 
+                      >
+                        <DownloadIcon />
+                      </IconButton>
+                    </Tooltip>
+                    </Grid>
+                  }
+                  titleTypographyProps={{variant:'b6' }}
+                  title={file_name}
+                />
 
-                      subheader={file}
-                      style={{ height : '50px' , marginTop: '0', paddingBottom:'0', border:'1px solid black'}}
-                    />*/}
-
-                      <CardContent  style={{display: 'flex' ,  width:'100%' , height:'50px' , overflow:'hidden', marginBottom: '10px'}}>
-                          <Typography gutterBottom variant="b5">
-                            {file}
-                          </Typography>
-                          
-                      
-                            
-                            <GetAppIcon 
-                            onClick={handleDownload(`/uploads/${file}`)} 
-                            style={{ marginLeft: 'auto' , marginRight: '0px' , height: '20px' , width : '20px' }}
-                            fontSize='small'
-                            />
-                           
-                          
-                      </CardContent>
-
-                      
-                    <CardMedia
-                          className={classes.media}
-                          image={`/uploads/${file}`}
-                          title="Image"
-                          /> 
-                  </Card>
+                <CardMedia
+                  component="img"
+                  image={file}
+                  alt="file image"
+                />
+                </Card>
             )
           }
         
 
         else{
-          console.log( "file here");
+          console.log(file_icon[file_extension]);
           return(
-          <Card className={classes.attach__file}>
-                    <CardContent  style={{display: 'flex',  width:'100%' , height:'50px' , overflow:'hidden' }}>
-                          <Typography gutterBottom variant="b5">
-                            {file}
-                          </Typography>
-                          
-                      
-                            
-                            <GetAppIcon 
-                            onClick={handleDownload(`/uploads/${file}`)} 
-                            style={{ marginLeft: 'auto' , height: '20px' , width : '20px' }}
-                            fontSize='small'
-                            />
-                            
-                          
-                      </CardContent>
+            <Card className={classes.attach__file}>
+            <CardHeader
+              action={
+                <Grid item>
+                    <Tooltip title="Download" arrow placement="right">
+                      <IconButton
+                      aria-label="settings"
+                      onClick={handleDownload(file)} 
+                      >
+                        <DownloadIcon />
+                      </IconButton>
+                    </Tooltip>
+                    </Grid>
+              }
+              titleTypographyProps={{variant:'b6' }}
+              title={file_name}
+            />
 
-                   
-                  </Card>
+            <CardMedia
+              component="img"
+              image={file_icon[file_extension]}
+              style={{ width: 100, marginLeft: 'auto', marginRight: 'auto'}}
+              alt="file image"
+            />
+            </Card>
+          
           )
         }
   })
