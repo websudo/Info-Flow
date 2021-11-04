@@ -13,6 +13,8 @@ import axios_origin from 'axios';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 
 
 
@@ -109,6 +111,8 @@ const useStyles = makeStyles({
       files: '',
     })
 
+    const [ uploading , setUploading] = useState(false)
+
     useEffect(() => {
       
       if( isFirstRender.current){
@@ -197,6 +201,8 @@ const useStyles = makeStyles({
 
       const uploadFile = () => {
 
+        setUploading(true);
+
         var file_arr = [];
 
           console.log(file.files);
@@ -230,10 +236,14 @@ const useStyles = makeStyles({
             ...values ,  upload : file_arr 
           });
 
+          setUploading(false);
+
           console.log(values)
         });
         
       }
+
+      
  
   return (
         <Card className={classes.root}>
@@ -273,6 +283,7 @@ const useStyles = makeStyles({
         </Grid>
         <input type='file' id='file__input' filename="upload" accept=".png,.jpg,.jpeg,.pdf,.doc,.ppt,.xlsx,.txt" style={{ display: 'none'}} onChange={handleChange('upload')} multiple></input>
         
+
         
         {/*<FileBase 
           type = 'file'
@@ -295,12 +306,20 @@ const useStyles = makeStyles({
             type="submit"
             className={classes.post__button}
             disableElevation
+            disabled={uploading}
             >
             Post
         </Button>
         </CardActions>
 
         </form>
+
+        { uploading &&
+          <Box sx={{ width: '100%' }}>
+            <LinearProgress />
+          </Box>
+        }
+        
     </Card>
   );
 }
