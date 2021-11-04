@@ -5,6 +5,7 @@ const multer = require('multer')
 
 
 
+
 /**
  * * IMPORTING THE POST MODEL FROM MODELS FOLDER
  */
@@ -28,12 +29,13 @@ const upload = multer({storage:storage});
  * * POST METHOD FOR ADDING DATA TO THE DATABSE 
  * * Passing the auth middleware in it so as to check if the user is Authorized 
  */
-router.post('/' , auth , upload.array("upload", 10) ,  async (req,res) =>{
+router.post('/' , auth  , async (req,res) =>{
 
     /** 
      * * GETTING THE BODY OF THE REQUEST RECIEVED 
      */
     const post = req.body;
+    console.log(post);
 
     
 
@@ -52,7 +54,7 @@ router.post('/' , auth , upload.array("upload", 10) ,  async (req,res) =>{
 
     else{
 
-        console.log( " This is file name " , req.files)
+        console.log( " This is file name " , req)
 
         const newPost = new Post({
             creator_id : req.body.creator_id,
@@ -62,10 +64,11 @@ router.post('/' , auth , upload.array("upload", 10) ,  async (req,res) =>{
             upload : []
         })
 
+        //var n = req.body.upload.length;
 
-        for( var i =0 ; i< req.files.length ; i++){
-            newPost.upload.push(req.files[i].originalname)
-        }
+       //for( var i =0 ; i < n ; i++){
+          //  newPost.upload.push(req.body.upload[i]);
+        //}
 
 
         
@@ -75,7 +78,7 @@ router.post('/' , auth , upload.array("upload", 10) ,  async (req,res) =>{
         .catch( (err) => { res.status(500).send(err); console.log("4") })*/
         
         
-        Post.create( newPost , (err , data) =>{
+        Post.create( req.body , (err , data) =>{
             if( err ){
                 res.status(500).send(err)
             }
