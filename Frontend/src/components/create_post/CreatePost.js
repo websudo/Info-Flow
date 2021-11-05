@@ -184,7 +184,7 @@ const useStyles = makeStyles({
             formData.append("description",values.description);
 
             
-            axios.post('/api/post', formData)
+            axios.post('/api/post', values)
             .then( res => {
             
               console.log(res);

@@ -8,15 +8,30 @@ import './Loading.css'
 
 const useStyles = makeStyles((theme) => ({
 
-    loading__icon__div:{
-        position: 'absolute',
+    loading__container:{
+        position: 'fixed',
+        display: 'flex',
         top: 0,
         left: 0,
         width: '100%',
-        height: '100vh',
+        height: '100%',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 90,
+    },
+
+    loading__icon__div:{
+        // marginRight: 'auto',
+        // marginLeft: 'auto',
+        // marginTop: 'auto',
+        // marginBottom: 'auto',
         textAlign: 'center',
         zIndex: 100,
+        width: '300px',
+        ['@media ( max-width: 420px )']:{
+            width: '200px',
+        }
     },
 
     
@@ -43,15 +58,15 @@ export default function Loading({active}) {
     
 
     return (
-        <div >
+        <div>
             { active && 
-            
-                <div className={classes.loading__icon__div}>
-                   <div id='loading-icon' >
-                       
-                   </div>
-                   <p className='loading__text'>{ loading__text[randomNumber(0,4)] }</p>
-                </div>}
+                <div className={classes.loading__container}>
+                    <div className={classes.loading__icon__div}>
+                        <div id='loading-icon' />
+                        <p className='loading__text'>{ loading__text[randomNumber(0,4)] }</p>
+                    </div>
+                </div>
+            }
         </div>
     )
 }
