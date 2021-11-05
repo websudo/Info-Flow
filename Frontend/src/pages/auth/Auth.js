@@ -55,9 +55,9 @@ const useStyles = makeStyles((theme) => ({
     auth__main:{
         position: 'fixed',
         width: '100%',
+        height : '100%',
         textAlign: 'center',
         backgroundImage: 'url("https://images.unsplash.com/photo-1596638787647-904d822d751e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1462&q=80")',
-        height : '100vh',
         paddingTop: 70,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
