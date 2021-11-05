@@ -53,14 +53,32 @@ const useStyles = makeStyles((theme) => ({
     },
 
     auth__main:{
-        position: 'fixed',
-        width: '100%',
-        height : '100%',
-        textAlign: 'center',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1596638787647-904d822d751e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1462&q=80")',
-        paddingTop: 70,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
+        
+        minHeight: 'calc(100vh - 50px)',
+        // textAlign: 'center',
+        // backgroundImage: 'url("https://images.unsplash.com/photo-1596638787647-904d822d751e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1462&q=80")',
+        // paddingTop: 70,
+        // backgroundRepeat: 'no-repeat',
+        // backgroundSize: 'cover',
+        //backgroundColor: 'rgba(71, 78, 79)',
+        backgroundColor: 'rgba(51,51,51)',
+        //paddingBottom: 50,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    auth__body:{
+        marginTop: 50,
+    },
+
+    auth__footer:{
+        position: 'relative',
+        left: 0,
+        bottom: 0,
+        //backgroundColor: 'rgba(71, 78, 79)',
+        backgroundColor: 'rgba(51,51,51)',
+        height: 50,
     },
 
     auth__logo: {
@@ -120,8 +138,10 @@ export default function Auth() {
     })
 
     return (
+        <div>
         <div className={classes.auth__main}>
 
+            <div className={classes.auth__body}>
             <Link to='/' style={{ textDecoration : 'none'}}>
                 {/*<Typography variant="h1" component="h2" gutterBottom className={classes.auth__logo}>
                     Info-Flow
@@ -150,6 +170,13 @@ export default function Auth() {
                             Account created! Login to continue.
                             </Alert>
                 </Snackbar>
+
+            </div>
+            
+        </div>
+        <footer className={classes.auth__footer}>
+        
+        </footer>
         </div>
     )
 }
