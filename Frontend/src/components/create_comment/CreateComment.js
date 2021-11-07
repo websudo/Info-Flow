@@ -106,8 +106,10 @@ const useStyles = makeStyles({
         /** 
      * * SENDING DATA TO THE SERVER IF NEITHER OF THEM IS NULL
      * */
-         const handleSubmit = () =>{
-          console.log(newcomment)
+         const handleSubmit = (e) =>{
+          
+          e.preventDefault();
+          
           const all_comment = values.comment.concat(newcomment)
           console.log( all_comment)
 
@@ -158,15 +160,18 @@ const useStyles = makeStyles({
         
         <CardContent>
         
-        
+
+        <form onSubmit={handleSubmit}>
         <FormControl fullWidth className={classes.margin} >
    
         <label htmlFor='comment' className={classes.label__input}>Comment</label>
         <input className={classes.comment__input} id="comment" onChange={handleChange('comment')} placeholder="Write comment here" ></input>  
 
-        </FormControl>
+        {/* Triggered on Enter */}
+        <input type="submit" style={{ height: '0px',  width: '0px',  border: 'none', padding: '0px'}} />
 
-        
+        </FormControl>
+        </form>
 
         </CardContent>
   

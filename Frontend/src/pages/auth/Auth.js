@@ -70,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
     auth__body:{
         marginTop: 50,
+        textAlign: 'center'
     },
 
     auth__footer:{
@@ -81,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
         height: 50,
     },
 
-    auth__logo: {
+    auth__logo: { 
         maxWidth: 600,
         ['@media (max-width : 420px)'] :{
             maxWidth: 250,

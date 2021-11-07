@@ -51,7 +51,8 @@ const useStyles = makeStyles((theme) => ({
 
     input__field: {
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        width: '100%'
     },
 
     
@@ -116,7 +117,9 @@ const useStyles = makeStyles((theme) => ({
 
       
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+
+        e.preventDefault();
 
         setLoading(true);
   
@@ -156,7 +159,9 @@ const useStyles = makeStyles((theme) => ({
 
     return (
         <div className={classes.signin__main}>
-
+            
+            <form onSubmit={handleSubmit}>
+                
             <TextField
                 required
                 className={classes.input__field}
@@ -176,7 +181,7 @@ const useStyles = makeStyles((theme) => ({
                     <OutlinedInput
                     id="outlined-adornment-password"
                     type={values.showPassword ? 'text' : 'password'}
-                    value={values.password}
+                    value={values.password} 
                     onChange={handleChange('password')}
                     endAdornment={
                     <InputAdornment position="end">
@@ -194,14 +199,21 @@ const useStyles = makeStyles((theme) => ({
                     labelWidth={70}
                 />
                         </FormControl>
+
+
+                {/* Triggered on Enter */}
+                <input type="submit" style={{ height: '0px',  width: '0px',  border: 'none', padding: '0px'}} />
+
                 <Button 
                 variant="contained" 
                 color="primary"
                 onClick={handleSubmit}
+                style={{ width: '100%'}}
                 >
                     LogIN
                 </Button>
-
+                
+                </form>
 
                 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="error">

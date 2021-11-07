@@ -7,11 +7,15 @@ import Chat from './pages/chat/Chat'
 import { BrowserRouter as Router , Switch , Route, Link } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './store'
+import {Offline , Online} from 'react-detect-offline'
+import NotOnline from './pages/offline/Offline';
 
 function App() {
   return (
     <Provider store={ store }>
     <div className="App">
+
+      <Online>
       <Router>
         <Switch>
 
@@ -35,6 +39,10 @@ function App() {
           </Route>
         </Switch>
       </Router>
+      </Online>
+      <Offline>
+        <NotOnline/>
+      </Offline>
     </div>
     </Provider>
   );

@@ -72,7 +72,7 @@ export default function MediaCard() {
   
     const [open, setOpen] = useState(false);
     
-    const [ searchValue , setSearchValue ] = useState();
+    const [ searchValue , setSearchValue ] = useState("");
 
     /*if( isLoggedIn ){
       setOpen(true);

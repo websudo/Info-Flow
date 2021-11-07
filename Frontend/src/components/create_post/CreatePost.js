@@ -16,8 +16,18 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 
+/**
+ * * Snackbar Imports 
+ */
+ import Snackbar from '@material-ui/core/Snackbar';
+ import MuiAlert from '@material-ui/lab/Alert';
 
-
+/**
+   * * Alert Function 
+   */
+ function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles({
     root: {
@@ -111,6 +121,16 @@ const useStyles = makeStyles({
       files: '',
     })
 
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+      return;
+      }
+
+      setOpen(false);
+  };
+
     const [ uploading , setUploading] = useState(false)
 
     useEffect(() => {
@@ -133,7 +153,13 @@ const useStyles = makeStyles({
         
         if( prop == 'upload'){
           console.log(event.target.files)
-          setFile( {files : event.target.files});
+          if( event.target.files.length <= 5){
+            setFile( {files : event.target.files});
+          }
+          else{
+            setOpen(true);
+          }
+          
         }
       };
 
@@ -284,7 +310,8 @@ const useStyles = makeStyles({
         <input type='file' id='file__input' filename="upload" accept=".png,.jpg,.jpeg,.pdf,.doc,.ppt,.xlsx,.txt" style={{ display: 'none'}} onChange={handleChange('upload')} multiple></input>
         
 
-        
+         
+
         {/*<FileBase 
           type = 'file'
           multiple = {false}
@@ -319,6 +346,12 @@ const useStyles = makeStyles({
             <LinearProgress />
           </Box>
         }
+
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="warning">
+                      Maximum file upload limit is 5! Please try again.
+                    </Alert>
+            </Snackbar>
         
     </Card>
   );

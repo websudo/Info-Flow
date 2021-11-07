@@ -32,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
     input__field: {
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        width: '100%',
     }
     
   }));
@@ -68,7 +69,9 @@ const useStyles = makeStyles((theme) => ({
       };
 
 
-    const handleRegister= () => {
+    const handleRegister= (e) => {
+
+        e.preventDefault();
 
         setLoading(true);
         if( values.name && values.email && values.password && values.password_confirmation){
@@ -93,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
     
     return (
         <div className={classes.signup__main}>
-
+            <form onSubmit={handleRegister}>
             <TextField
                 required
                 className={classes.input__field}
@@ -171,16 +174,18 @@ const useStyles = makeStyles((theme) => ({
                     required
                 />
                         </FormControl>
-
+                {/* Triggered on Enter */}
+                <input type="submit" style={{ height: '0px',  width: '0px',  border: 'none', padding: '0px'}} />
 
                 <Button 
                 variant="contained" 
                 color="primary"
                 onClick={handleRegister}
+                style={{ width: '100%'}}
                 >
                     Register
                 </Button>
-
+                </form>
                 <Loading active={loading}/>
 
                 
