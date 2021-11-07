@@ -13,6 +13,7 @@ import header from '../../assets/background/header.png'
 import  decode  from 'jwt-decode';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import offlineimg from '../../assets/background/Nointernet_new1.png'
 
 
 const useStyles = makeStyles({
@@ -241,6 +242,7 @@ export default function Index() {
                 </Alert>
             </Snackbar>
 
+            <img src={offlineimg} style={{ display: 'none'}}/>
             <Footer/>
         </div>
     )
