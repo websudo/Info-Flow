@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;1,400&display=swap');
+
+.switch-bar-div{
+    background-color: rgb(221, 221, 221);
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    font-family: 'Roboto';
+    line-height: 0px;
+    text-align: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.divider{
+    width: 2px;
+    background-color: rgb(180, 180, 180);
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.forum-icon-div{
+    padding: 5px 30px;
+    border-radius: 5px;
+}
+
+.forum-icon-div:hover{
+    background-color: rgb(110, 110, 110);
+    cursor: pointer;
+}
+
+.chat-icon-div:hover{
+    background-color: rgb(110, 110, 110);
+    color: white;
+    cursor: pointer;
+}
+
+.chat-icon-div{
+    padding: 5px 30px;
+    border-radius: 5px;
+}

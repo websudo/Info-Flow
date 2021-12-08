@@ -22,7 +22,7 @@ const useStyles = makeStyles({
       maxWidth: 700,
       marginLeft : 'auto',
       marginRight : 'auto',
-      marginTop : 60,
+      marginTop : 40,
       marginBottom : 30
     },
 
