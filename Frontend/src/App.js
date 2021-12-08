@@ -15,7 +15,7 @@ function App() {
     <Provider store={ store }>
     <div className="App">
 
-      <Online>
+      {/* <Online> */}
       <Router>
         <Switch>
 
@@ -37,12 +37,17 @@ function App() {
           <Route path='/postpage'>
             <Post />
           </Route>
+
+          <Route path='/offline'>
+            <NotOnline/>
+          </Route>
+
         </Switch>
       </Router>
-      </Online>
-      <Offline>
+      {/* </Online> */}
+      {/* <Offline>
         <NotOnline/>
-      </Offline>
+      </Offline> */}
     </div>
     </Provider>
   );
