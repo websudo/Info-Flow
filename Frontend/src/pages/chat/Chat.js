@@ -6,6 +6,7 @@ import Conversation from '../../components/conversation/Conversation'
 import Message from '../../components/message/Message';
 import ChatOnline from '../../components/chatonline/ChatOnline';
 import axios from '../../api/index';
+import SwitchBar from '../../components/switch/SwitchBar';
 
 const useStyles = makeStyles({
     
@@ -176,6 +177,7 @@ export default function Chat() {
     return (
         <div>
             <Navbar/>
+            <SwitchBar/>
             <div className={classes.chat__div}>
                 <div className={classes.start__box }>
                     <div className={classes.chatmenu}>

@@ -11,6 +11,11 @@ export default function SwitchBar() {
     useEffect(() => {
         if(window.location.href.split('/').pop() == 'home'){
             document.querySelector('.forum-icon-div').style.backgroundColor = "white";
+            document.querySelector('.forum-icon-div').style.color = "black";
+        }
+        if(window.location.href.split('/').pop() == 'chat'){
+            document.querySelector('.chat-icon-div').style.backgroundColor = "white";
+            document.querySelector('.chat-icon-div').style.color = "black";
         }
     })
     return (

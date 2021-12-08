@@ -33,6 +33,7 @@
 .forum-icon-div:hover{
     background-color: rgb(110, 110, 110);
     cursor: pointer;
+    color: white;
 }
 
 .chat-icon-div:hover{
