@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Info-Flow" src="public/logo1.png" width="100" />
+    <img alt="Info-Flow" src="https://res.cloudinary.com/dguetook9/image/upload/v1638962159/Logo/logo1_outyop.png" width="100" />
   </a>
 </p>
 
