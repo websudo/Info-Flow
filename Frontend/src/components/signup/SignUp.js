@@ -87,6 +87,9 @@ const useStyles = makeStyles((theme) => ({
                 window.location.reload(false);
                 signupStatus(true);
             })
+            .catch( err => {
+                console.log(err)
+            })
         }
 
         else{

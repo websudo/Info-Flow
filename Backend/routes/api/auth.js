@@ -3,11 +3,19 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/auth');
+const dotenv = require('dotenv')
+const path = require('path')
+
+dotenv.config();
 
 // * User Model
 const User = require('../../models/User');
 
 const JWT_SECRET = process.env.TOKEN_SECRET;
+
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
 
 
 /**
@@ -58,6 +66,9 @@ router.post('/login', async (req, res) => {
  */
 
 router.post('/register', async (req, res) => {
+
+  
+
   const { name, email, password , password_confirmation } = req.body;
 
   // * Simple validation
@@ -90,20 +101,38 @@ router.post('/register', async (req, res) => {
     if (!hash) throw Error('Something went wrong hashing the password');
 
 
-
     /**
      * * This hash is stored in the db as password 
      */
     const newUser = new User({
       name,
       email,
-      password: hash
+      password: hash,
+      temporarytoken: jwt.sign({name : name,email: email},JWT_SECRET,{ expiresIn: 12000})
     });
 
 
     const savedUser = await newUser.save();
     if (!savedUser) throw Error('Something went wrong saving the user');
-
+    if(savedUser){
+      
+      const msg = {
+        to: savedUser.email, // Change to your recipient
+        from: 'realinfoflow@gmail.com', // Change to your verified sender
+        subject: 'Email Verification',
+        text: `Click this link to verify your account https://infoflow.netlify.app/api/auth/verify/${savedUser.temporarytoken}`,
+        html: `<strong>Click this link to verify your account</strong>
+        <a href="https://infoflow.netlify.app/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
+      }
+      sgMail
+      .send(msg)
+      .then(() => {
+        console.log('Email sent')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+    }
     const token = jwt.sign({ id: savedUser._id }, JWT_SECRET, {
       expiresIn: 3600
     });
@@ -122,7 +151,68 @@ router.post('/register', async (req, res) => {
 });
 
 
+/**
+ * @route   PUT api/auth/user
+ * @desc    Update user data after email verification
+ * @access  Public
+ */
 
+router.get('/verify/:token', async (req, res) => {
+  console.log( "in verification code")
+  try{
+    User.findOne( { temporarytoken : req.params.token}, (err, user) => {
+      if( err) console.log(err);
+
+      const token = req.params.token;
+      console.log( `the token is ${token}`);
+
+      jwt.verify( token , JWT_SECRET, (err , decoded) => {
+        if( err ){
+          res.json({
+            success : false,
+            message: "Activation link has expired"
+          });
+        }
+        else if( !user){
+          res.json({
+            success : false,
+            message: "Activation link has expired"
+          });
+        }
+        else{
+          user.temporarytoken = false;
+          user.active = true;
+
+          user.save( err => {
+            if(err){
+              console.log(err);
+            }
+            else{
+              const emailActivate = {
+                from: "realinfoflow@gmail.com",
+                to: user.email,
+                subject: "Account Activated Successfully",
+                text: `Hello ${user.name}, your account has been successfully activated!`,
+                html: `Hello <strong> ${user.name}</strong>,<br><br> Your account has been successfully activated!`
+              }
+
+              sgMail.send(emailActivate, (err,info) => {
+                if( err) console.log( err);
+                else{
+                  console.log( "Activation message confiramtion" + info.response);
+                }
+              });
+              res.send(`<h1>Account Acctivated successfully</h1><br><a href="https://infoflow.netlify.app">Click here to sign in</a>`)
+            }
+          })
+        }
+      })
+    })
+  }
+  catch(e){
+    console.log(e)
+  }
+})
 
 /**
  * @route   GET api/auth/user
