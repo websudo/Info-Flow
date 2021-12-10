@@ -26,6 +26,11 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheer">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;500&display=swap" rel="stylesheet"> 
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -36,8 +41,83 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Info-Flow</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;500&display=swap');
+       .offline__container{
+        position :  fixed;
+        display: flex;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255,255,255);
+        align-items: center;
+        justify-content: center;
+        z-index: 90,
+      }
+
+      .offline__div{
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
+        z-index: 100;
+        width: 900px;
+        
+    }
+
+
+    .offline__img{
+        width: 300px;
+    }
+
+    
+
+.offline__title{
+    font-family: 'Fira Sans', sans-serif;
+    color: Black;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 125%;
+    letter-spacing: 0.25%;
+}
+
+.offline__desc{
+    font-family: 'Fira Sans', sans-serif;
+    color: rgb(51, 51, 51);
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 100%;
+    letter-spacing: 0.15%;
+}
+
+@media (max-width: 420px){
+    .offline__title{
+        font-size: 18px;
+    }
+
+    .offline__desc{
+        font-size: 14px;
+    }
+}
+
+    @media ( max-width: 420px ){
+          .offline__img{
+            width: 200px;
+          }            
+        }
+    @media ( max-width: 420px ){
+            .offline__div{width: 300px;}
+          }
+
+    </style>
   </head>
   <body>
-        <h1>Offline page</h1>
+        <div class="offline__container">
+          <div class="offline__div">
+              <img  class="offline__img" src="https://res.cloudinary.com/dguetook9/image/upload/v1639145380/Nointernet_new1_gbujbc.png">
+              <p class="offline_title">NO ITERNET CONNECTION</p>
+              <p class="offline_desc">Check your internet connection and try again</p>
+          </div>
+      </div>      
   </body>
 </html>
