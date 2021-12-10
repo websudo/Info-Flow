@@ -14,7 +14,11 @@ import clsx from 'clsx';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Loading from '../loading/Loading';
 
-
+/**
+ * * Snackbar Imports 
+ */
+ import Snackbar from '@material-ui/core/Snackbar';
+ import MuiAlert from '@material-ui/lab/Alert';
 
 
 
@@ -38,6 +42,14 @@ const useStyles = makeStyles((theme) => ({
     
   }));
 
+  /**
+   * * Alert Function 
+   */
+   function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+
 
   export default function Auth({signupStatus}) {
 
@@ -53,7 +65,23 @@ const useStyles = makeStyles((theme) => ({
         showPassword : false
     })
 
-    
+    const [ errMessage , setErrMessage] = useState();
+
+    const [open, setOpen] = React.useState(false);
+
+
+    const handleClick = () => {
+        setOpen(true);
+        console.log( "Snackbar")
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpen(false);
+    };
 
     const handleChange = (props) => (event) => {
         setValues({ ...values, [props] : event.target.value})
@@ -88,7 +116,9 @@ const useStyles = makeStyles((theme) => ({
                 signupStatus(true);
             })
             .catch( err => {
+                setLoading(false);
                 console.log(err)
+                setErrMessage(err.response.data.msg)
             })
         }
 
@@ -191,7 +221,11 @@ const useStyles = makeStyles((theme) => ({
                 </form>
                 <Loading active={loading}/>
 
-                
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="error">
+                    {errMessage}
+                    </Alert>
+                </Snackbar>  
         </div>
     )
 }

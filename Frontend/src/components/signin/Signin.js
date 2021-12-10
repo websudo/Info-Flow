@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     const [ loggedIn , setLoggedIn ] = useState({} );
     const [ loading , setLoading ] = useState(false);
     const [ alwaysFalse , setAlwaysFalse ] = useState( false);
-
+    const [ errMessage , setErrMessage] = useState();
 
     const [ values , setValues ] = useState({
         email : '',
@@ -147,7 +147,9 @@ const useStyles = makeStyles((theme) => ({
                 }
             )
             .catch(err => {
+                setLoading(false);
                 console.log( "Wrong Credentials ");
+                setErrMessage(err.response.data.msg);
                 handleClick()
             })
         }
@@ -217,7 +219,7 @@ const useStyles = makeStyles((theme) => ({
 
                 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="error">
-                    Wrong Credentials
+                    {errMessage}
                     </Alert>
                 </Snackbar>
 
