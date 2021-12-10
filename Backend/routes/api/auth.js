@@ -123,9 +123,9 @@ router.post('/register', async (req, res) => {
         to: savedUser.email, // Change to your recipient
         from: 'realinfoflow@gmail.com', // Change to your verified sender
         subject: 'Email Verification',
-        text: `Click this link to verify your account https://infoflow.netlify.app/api/auth/verify/${savedUser.temporarytoken}`,
+        text: `Click this link to verify your account https://realinfoflow.herokuapp.com/auth/verify/${savedUser.temporarytoken}`,
         html: `<strong>Click this link to verify your account</strong>
-        <a href="https://infoflow.netlify.app/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
+        <a href="https://realinfoflow.herokuapp.com/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
       }
       sgMail
       .send(msg)
