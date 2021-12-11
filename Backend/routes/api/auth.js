@@ -205,7 +205,85 @@ router.get('/verify/:token', async (req, res) => {
                   console.log( "Activation message confiramtion" + info.response);
                 }
               });
-              res.send(`<h1>Account Acctivated successfully</h1><br><a href="https://infoflow.netlify.app">Click here to sign in</a>`)
+              res.send(`<!DOCTYPE html>
+              <html lang="en">
+              <head>
+                  <meta charset="UTF-8">
+                  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Document</title><link rel="preconnect" href="https://fonts.googleapis.com">
+                  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500&display=swap" rel="stylesheet"> 
+                  <style>
+                      body{
+                          background-color:rgb(225, 225, 225) ;
+                          background-size: cover;
+                      }
+                     .root{
+                          text-align: center;
+                          margin-top: 20vh;
+                          margin-left: 10px;
+                          margin-right: 10px;
+                      }
+              
+                      .main-div{
+                          max-width: 600px;
+                          /background-color: rgb(187, 187, 187);/
+                          /background-image: linear-gradient(180deg,#5a4fcf,#39B7CD,#63D1F4);/
+                          background-color: rgb(246, 246, 246);
+                          color: rgb(0, 0, 0);
+                          padding: 40px 20px;
+                          border-radius: 10px;
+                          margin-left: auto;
+                          margin-right: auto;
+                          text-align: center;
+                          margin-top: 20px;
+                          box-shadow: 0px 0px 10px rgb(185, 185, 185);
+                      }
+              
+                      .heading{
+                          font-family: 'Fira Sans', sans-serif;
+                          font-weight: 500;
+                      }
+              
+                      .sub-heading{
+                          font-family: 'Fira Sans', sans-serif;
+                          font-weight: 300;
+                      }
+              
+                      .link{
+                          text-decoration: none;
+                          color: black;
+                          font-family: 'Fira Sans', sans-serif;
+                          font-weight: 400;
+                      }
+              
+                      
+              
+                      .company-details{
+                          font-family: 'Fira Sans', sans-serif;
+                          font-weight: 400;
+                          margin-top: 20px;
+                      }
+                      
+                      .logo{
+                          width: 120px;
+                      }
+                  </style>
+              </head>
+              <body>
+                  <div class="root">
+                  <img class="logo" src='https://res.cloudinary.com/dguetook9/image/upload/v1638962159/Logo/logo1_outyop.png'>
+                  <div class="main-div">
+                      <h1 class="heading">Account Activated Successfully!</h1>
+                      <p class="sub-heading">Hello ${user.name} your account has been successfully activated.</p><br>
+                      <a class="link" href="https://infoflow.netlify.app/auth">Click here to log in to your account.</a>
+                  </div>
+                  <p class="company-details">Info-Flow</p>
+              
+                  </div>
+              </body>
+              </html>`)
             }
           })
         }
