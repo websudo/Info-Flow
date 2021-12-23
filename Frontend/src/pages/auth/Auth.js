@@ -168,7 +168,7 @@ export default function Auth() {
 
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                             <Alert onClose={handleClose} severity="success">
-                            Account created! Login to continue.
+                            Account created! Verify email address to continue.
                             </Alert>
                 </Snackbar>
 

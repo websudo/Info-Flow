@@ -84,7 +84,7 @@ router.post('/register', async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email , name });
     if (user) throw Error('User already exists');
 
 
@@ -168,7 +168,14 @@ router.get('/verify/:token', async (req, res) => {
 
       const token = req.params.token;
       console.log( `the token is ${token}`);
+      if( !user){
+        res.json({
+          success : false,
+          message: "Token is invalid!"
+        });
+      }
 
+      if(user){
       jwt.verify( token , JWT_SECRET, (err , decoded) => {
         if( err ){
           res.json({
@@ -176,12 +183,7 @@ router.get('/verify/:token', async (req, res) => {
             message: "Activation link has expired"
           });
         }
-        else if( !user){
-          res.json({
-            success : false,
-            message: "Activation link has expired"
-          });
-        }
+        
         else{
           user.temporarytoken = false;
           user.active = true;
@@ -211,7 +213,9 @@ router.get('/verify/:token', async (req, res) => {
                   <meta charset="UTF-8">
                   <meta http-equiv="X-UA-Compatible" content="IE=edge">
                   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                  <title>Document</title><link rel="preconnect" href="https://fonts.googleapis.com">
+                  <link rel="apple-touch-icon" href="https://res.cloudinary.com/dguetook9/image/upload/v1638962159/Logo/logo1_outyop.png" />
+                  <link rel="icon" href="https://res.cloudinary.com/dguetook9/image/upload/v1638962159/Logo/logo1_outyop.png" />
+                  <title>Info-Flow</title><link rel="preconnect" href="https://fonts.googleapis.com">
                   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500&display=swap" rel="stylesheet"> 
                   <style>
@@ -228,8 +232,6 @@ router.get('/verify/:token', async (req, res) => {
               
                       .main-div{
                           max-width: 600px;
-                          /background-color: rgb(187, 187, 187);/
-                          /background-image: linear-gradient(180deg,#5a4fcf,#39B7CD,#63D1F4);/
                           background-color: rgb(246, 246, 246);
                           color: rgb(0, 0, 0);
                           padding: 40px 20px;
@@ -288,6 +290,7 @@ router.get('/verify/:token', async (req, res) => {
           })
         }
       })
+      }
     })
   }
   catch(e){

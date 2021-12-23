@@ -62,7 +62,8 @@ const useStyles = makeStyles((theme) => ({
         email : "",
         password: "",
         password_confirmation: "",
-        showPassword : false
+        showPassword : false,
+        showConfirmPassword: false
     })
 
     const [ errMessage , setErrMessage] = useState();
@@ -92,6 +93,10 @@ const useStyles = makeStyles((theme) => ({
         setValues({ ...values, showPassword: !values.showPassword });
       };
     
+      const handleClickShowConfirmPassword = () => {
+        setValues({ ...values, showConfirmPassword: !values.showConfirmPassword });
+      };
+
       const handleMouseDownPassword = (event) => {
         event.preventDefault();
       };
@@ -188,18 +193,18 @@ const useStyles = makeStyles((theme) => ({
                 <InputLabel htmlFor="standard-adornment-password-confirmation">Confirm Password</InputLabel>
                     <OutlinedInput
                     id="outlined-adornment-password-confirmation"
-                    type={values.showPassword ? 'text' : 'password'}
+                    type={values.showConfirmPassword ? 'text' : 'password'}
                     value={values.password_confirmation}
                     onChange={handleChange('password_confirmation')}
                     endAdornment={
                     <InputAdornment position="end">
                         <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
+                        onClick={handleClickShowConfirmPassword}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                         >
-                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                        {values.showConfirmPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                     </InputAdornment>
                     }
