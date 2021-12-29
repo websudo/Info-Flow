@@ -129,9 +129,9 @@ router.post('/register', async (req, res) => {
       //   to: savedUser.email, // Change to your recipient
       //   from: 'realinfoflow@gmail.com', // Change to your verified sender
       //   subject: 'Email Verification',
-      //   text: `Click this link to verify your account https://realinfoflow.herokuapp.com/auth/verify/${savedUser.temporarytoken}`,
+      //   text: `Click this link to verify your account https://infoflow.herokuapp.com/auth/verify/${savedUser.temporarytoken}`,
       //   html: `<strong>Click this link to verify your account</strong>
-      //   <a href="https://realinfoflow.herokuapp.com/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
+      //   <a href="https://infoflow.herokuapp.com/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
       // }
       // sgMail
       // .send(msg)
@@ -157,7 +157,7 @@ router.post('/register', async (req, res) => {
             'replyTo' : { 'email': 'realinfoflow@gmail.com', 'name':'Info-Flow'},
             'to' : [{'email':'ritiknair19@gmail.com'}],
             'htmlContent' : `<strong>Click this link to verify your account</strong>
-            <a href="https://realinfoflow.herokuapp.com/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
+            <a href="https://infoflow.herokuapp.com/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
             'params' : {'bodyMessage': 'Email Verification'}
           }
         )
@@ -178,7 +178,7 @@ router.post('/register', async (req, res) => {
           'replyTo' : { 'email': 'realinfoflow@gmail.com', 'name':'Info-Flow'},
           'to' : [{'email':savedUser.email}],
           'htmlContent' : `<strong>Click this link to verify your account</strong>
-          <a href="https://realinfoflow.herokuapp.com/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
+          <a href="https://infoflow.herokuapp.com/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
           'params' : {'bodyMessage': 'Email Verification'}
         }
       )
@@ -247,7 +247,7 @@ router.get('/verify/:token', async (req, res) => {
             }
             else{
               // const emailActivate = {
-              //   from: "realinfoflow@gmail.com",
+              //   from: "infoflow@gmail.com",
               //   to: user.email,
               //   subject: "Account Activated Successfully",
               //   text: `Hello ${user.name}, your account has been successfully activated!`,
