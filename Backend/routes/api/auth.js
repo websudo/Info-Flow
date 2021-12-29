@@ -13,8 +13,14 @@ const User = require('../../models/User');
 
 const JWT_SECRET = process.env.TOKEN_SECRET;
 
-const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+// Sendgrid Configuration
+/*const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)*/
+
+//SendInBlue Configuration
+var SibApiV3Sdk = require('sib-api-v3-sdk')
+SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = process.env.SIB_API_KEY
 
 
 
@@ -119,22 +125,69 @@ router.post('/register', async (req, res) => {
     if (!savedUser) throw Error('Something went wrong saving the user');
     if(savedUser){
       
-      const msg = {
-        to: savedUser.email, // Change to your recipient
-        from: 'realinfoflow@gmail.com', // Change to your verified sender
-        subject: 'Email Verification',
-        text: `Click this link to verify your account https://realinfoflow.herokuapp.com/auth/verify/${savedUser.temporarytoken}`,
-        html: `<strong>Click this link to verify your account</strong>
-        <a href="https://realinfoflow.herokuapp.com/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
-      }
-      sgMail
-      .send(msg)
+      // const msg = {
+      //   to: savedUser.email, // Change to your recipient
+      //   from: 'realinfoflow@gmail.com', // Change to your verified sender
+      //   subject: 'Email Verification',
+      //   text: `Click this link to verify your account https://realinfoflow.herokuapp.com/auth/verify/${savedUser.temporarytoken}`,
+      //   html: `<strong>Click this link to verify your account</strong>
+      //   <a href="https://realinfoflow.herokuapp.com/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
+      // }
+      // sgMail
+      // .send(msg)
+      // .then(() => {
+      //   console.log('Email sent')
+      // })
+      // .catch((error) => {
+      //   console.error(error)
+      // })
+
+      /*let apiInstance = new SibApiV3Sdk.ContactsApi();
+      let createContact = new SibApiV3Sdk.CreateContact();
+      createContact.email = 'ritiknair19@gmail.com';
+      createContact.listIds = [2];
+
+      apiInstance.createContact(createContact)
+      .then(data => {
+        console.log(JSON.stringify(data))
+        new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(
+          {
+            'subject' : "Email Verification",
+            'sender' : { 'email': 'realinfoflow@gmail.com', 'name':'Info-Flow'},
+            'replyTo' : { 'email': 'realinfoflow@gmail.com', 'name':'Info-Flow'},
+            'to' : [{'email':'ritiknair19@gmail.com'}],
+            'htmlContent' : `<strong>Click this link to verify your account</strong>
+            <a href="https://realinfoflow.herokuapp.com/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
+            'params' : {'bodyMessage': 'Email Verification'}
+          }
+        )
+        .then(() => {
+            console.log('Email sent')
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      })
+      .catch(err => console.log(err))*/
+
+      
+      new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(
+        {
+          'subject' : "Email Verification",
+          'sender' : { 'email': 'realinfoflow@gmail.com', 'name':'Info-Flow'},
+          'replyTo' : { 'email': 'realinfoflow@gmail.com', 'name':'Info-Flow'},
+          'to' : [{'email':savedUser.email}],
+          'htmlContent' : `<strong>Click this link to verify your account</strong>
+          <a href="https://realinfoflow.herokuapp.com/api/auth/verify/${savedUser.temporarytoken}">Click Here</a>`,
+          'params' : {'bodyMessage': 'Email Verification'}
+        }
+      )
       .then(() => {
-        console.log('Email sent')
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+          console.log('Email sent')
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
     const token = jwt.sign({ id: savedUser._id }, JWT_SECRET, {
       expiresIn: 3600
@@ -193,20 +246,37 @@ router.get('/verify/:token', async (req, res) => {
               console.log(err);
             }
             else{
-              const emailActivate = {
-                from: "realinfoflow@gmail.com",
-                to: user.email,
-                subject: "Account Activated Successfully",
-                text: `Hello ${user.name}, your account has been successfully activated!`,
-                html: `Hello <strong> ${user.name}</strong>,<br><br> Your account has been successfully activated!`
-              }
+              // const emailActivate = {
+              //   from: "realinfoflow@gmail.com",
+              //   to: user.email,
+              //   subject: "Account Activated Successfully",
+              //   text: `Hello ${user.name}, your account has been successfully activated!`,
+              //   html: `Hello <strong> ${user.name}</strong>,<br><br> Your account has been successfully activated!`
+              // }
 
-              sgMail.send(emailActivate, (err,info) => {
-                if( err) console.log( err);
-                else{
-                  console.log( "Activation message confiramtion" + info.response);
+              // sgMail.send(emailActivate, (err,info) => {
+              //   if( err) console.log( err);
+              //   else{
+              //     console.log( "Activation message confiramtion" + info.response);
+              //   }
+              // });
+
+              new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(
+                {
+                  'subject' : "Account Activated Successfully",
+                  'sender' : { 'email': 'realinfoflow@gmail.com', 'name':'Info-Flow'},
+                  'replyTo' : { 'email': 'realinfoflow@gmail.com', 'name':'Info-Flow'},
+                  'to' : [{'email':user.email}],
+                  'htmlContent' : `Hello <strong> ${user.name}</strong>,<br><br> Your account has been successfully activated!`,
+                  'params' : {'bodyMessage': 'Email Verification'}
                 }
-              });
+              )
+              .then(() => {
+                  console.log('Successfull Activation Email sent')
+                })
+                .catch((error) => {
+                  console.error(error)
+                })
               res.send(`<!DOCTYPE html>
               <html lang="en">
               <head>
