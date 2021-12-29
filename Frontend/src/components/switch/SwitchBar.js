@@ -28,7 +28,7 @@ export default function SwitchBar() {
             </Link>
             <div className="divider"></div>
 
-            <Link to='/chat' style={{ textDecoration: 'none', color : "black"}}>
+            <Link to='/notbuilt' style={{ textDecoration: 'none', color : "black"}}>
                 <div className="chat-icon-div">
                     <ChatIcon id="chat-icon" sx={{ fontSize: 40}}/>
                     <p>Chat</p>
