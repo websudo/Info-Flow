@@ -13,7 +13,7 @@ export default function SwitchBar() {
             document.querySelector('.forum-icon-div').style.backgroundColor = "white";
             document.querySelector('.forum-icon-div').style.color = "black";
         }
-        if(window.location.href.split('/').pop() == 'chat'){
+        if(window.location.href.split('/').pop() == 'notbuilt'){
             document.querySelector('.chat-icon-div').style.backgroundColor = "white";
             document.querySelector('.chat-icon-div').style.color = "black";
         }
