@@ -64,7 +64,7 @@ export default function Footer() {
 
             <div className={classes.list__div}> 
 
-                <div className={classes.list}>
+                {/* <div className={classes.list}>
                     <p className='footer__title'>Title</p>
                     <ul style={{ listStyleType: 'none' , paddingLeft: '0' , textDecoration: 'none'}}>
                         <a href='#' className={classes.footer__list__item}><li>random1</li></a>
@@ -90,7 +90,7 @@ export default function Footer() {
                         <a href='#' className={classes.footer__list__item}><li>random1</li></a>
                         <a href='#' className={classes.footer__list__item}><li>random1</li></a>
                     </ul>
-                </div>
+                </div> */}
 
                 <div className={classes.contact__list}>
                     <p className='footer__title'>Follow@</p>
