@@ -1,11 +1,13 @@
 import React from 'react'
 import "./NotBuilt.css"
 import Navbar from '../navbar/Navbar'
+import SwitchBar from '../switch/SwitchBar'
 
 export default function NotBuilt() {
     return (
         <div>
             <Navbar/>
+            <SwitchBar/>
                   <div className="root">
                   <img className="logo" src='https://res.cloudinary.com/dguetook9/image/upload/v1640782282/Logo/Notbuilt_negg9p.png'/>
                   <div className="main-div">
