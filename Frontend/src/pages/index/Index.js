@@ -29,6 +29,11 @@ const useStyles = makeStyles({
     main__logo:{
         marginTop: 120,
         maxWidth: 600,
+
+        ['@media (max-width: 1366px)']:{
+            marginTop: 80,
+            maxWidth: 500,
+        },
         ['@media (max-width : 420px)'] :{
             marginTop: 80,
             maxWidth: 250,
@@ -60,6 +65,11 @@ const useStyles = makeStyles({
 
     features__icon:{
         maxWidth: 150,
+
+        ['@media (max-width: 1366px)']:{
+            maxWidth: 120,
+        },
+
         ['@media (max-width : 420px)']: {
             maxWidth: 50,
         },
@@ -94,6 +104,10 @@ const useStyles = makeStyles({
         margin: 0,
         width: '100%',
         height: 150,
+
+        ['@media (max-width: 1366px)']:{
+            height: 80,
+        },
         ['@media (max-width: 420px)']:{
             height: 90,
         }
