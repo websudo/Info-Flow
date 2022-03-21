@@ -29,16 +29,37 @@ const router = express.Router();
  */
 
 
- router.get('/', async (req, res) => {
+//  router.get('/', async (req, res) => {
 
-  const userId = req.query.userId;
-  try {
-    const users = await User.findById( userId);
-    if (!users) throw Error('No users exist');
-    res.json(users);
-  } catch (e) {
-    res.status(400).json({ msg: e.message });
-  }
+//   const userId = req.query.userId;
+//   try {
+//     const users = await User.findById( userId);
+//     if (!users) throw Error('No users exist');
+//     res.json(users);
+//   } catch (e) {
+//     res.status(400).json({ msg: e.message });
+//   }
+// });
+
+
+/**
+ * @route   GET api/users
+ * @desc    Get all users
+ * @access  Private
+ */
+
+router.get('/', async (req, res) => {
+
+  User.find( (err , data) =>{
+    if( err ){
+        res.status(500).send(err);
+        console.log('5')
+    }
+    else{
+        res.status(200).send(data);
+        console.log('6')
+    }
+  })
 });
 
 module.exports = router
