@@ -1,4 +1,4 @@
-import React , { useEffect , useState , useContext } from 'react'
+import React , { useEffect , useState , useContext, useRef } from 'react'
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router';
 import "./Navbar.css";
@@ -11,6 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import logo from '../../assets/logo/logoname3.png'
+import {io} from 'socket.io-client'
 
 
 /**
@@ -43,6 +44,7 @@ const Navbar = () => {
     const [ loginexp , setLoginexp ] = useState(false)
     const [open, setOpen] = useState(false);
     const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
+    const socket = useRef();
 
     const handleClickOpenLogoutDialog = () => {
       setOpenLogoutDialog(true)
@@ -51,6 +53,10 @@ const Navbar = () => {
     const handleCloseLogoutDialog = () => {
       setOpenLogoutDialog(false);
     };
+
+    useEffect(() =>{
+        socket.current = io.connect("https://infofloww.herokuapp.com/");
+    },[])
 
 
     useEffect( () => {

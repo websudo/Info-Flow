@@ -9,10 +9,24 @@ import { format } from 'timeago.js'
 
 const useStyles = makeStyles({
 
+    "::-webkit-scrollbar":{
+        width: 20,
+      },
+      
+    "::-webkit-scrollbar-track": {
+      backgroundColor: 'black',
+    },
+      
+    "::-webkit-scrollbar-thumb":{
+      background: '#4e4e4e',
+      borderRadius: 25,
+      },
+
     message:{
         display: 'flex',
         flexDirection: 'column',
         marginTop: 20,
+        marginLeft: 10,
     },
 
     message__img:{
@@ -21,6 +35,7 @@ const useStyles = makeStyles({
         borderRadius: '50%',
         objectFit: 'cover',
         marginRight: 10,
+        
     },
 
     message__top:{

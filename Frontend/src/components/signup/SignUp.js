@@ -147,7 +147,6 @@ const useStyles = makeStyles((theme) => ({
                   }}
 
                 onChange={handleChange('name') }
-                required
                 />
 
 
@@ -162,7 +161,7 @@ const useStyles = makeStyles((theme) => ({
                     shrink: true,
                   }}
                 onChange={ handleChange('email') }
-                required
+        
                 />
 
                 <FormControl className={clsx(classes.margin, classes.textField , classes.input__field)} variant="outlined">

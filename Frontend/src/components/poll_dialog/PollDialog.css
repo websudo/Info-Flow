@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;700&display=swap');
+
+.icon__caption{
+    font-family: 'Fira Sans', sans-serif;
+    color: rgb(0, 0, 0);
+    font-size: 1.25em;
+    font-weight: 400;
+    line-height: 125%;
+    letter-spacing: 0.25%;
+    margin-right: auto;
+    margin-left: 2%;
+}
+
+
+.poll__dialog__body{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.poll__dialog__title{
+    font-family: 'Fira Sans', sans-serif;
+    color: rgb(255, 255, 255);
+    margin-right: auto;
+    margin-left: 2%;
+}
+
+.create__poll{
+    text-align: center;
+    cursor: pointer;
+    padding: 5px 30px;
+    border-radius: 5%;
+}
+
+.create__poll:hover{
+    background-color: rgb(214, 214, 214);
+}
+
+.view__poll{
+    border-radius: 5%;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px 30px;
+}
+
+.view__poll:hover{
+    background-color: rgb(214, 214, 214);
+}
+
+.divider__polldialog{
+    width: 4px;
+    background-color: rgb(182, 182, 182);
+    
+}

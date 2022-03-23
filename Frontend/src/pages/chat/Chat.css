@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;700&display=swap');
+
+.conversation__title{
+    font-family: 'Fira Sans', sans-serif;
+    color: rgb(255, 255, 255);
+    font-size: 1.25em;
+    font-weight: 400;
+}
+
+.chat__online__title{
+    font-family: 'Fira Sans', sans-serif;
+    color: rgb(255, 255, 255);
+    font-size: 1.25em;
+    font-weight: 400;
+}
+
+
+@media (max-width: 600px){
+    .chat__div{
+        display: block;
+        background-color: aqua;
+    }
+}

@@ -5,7 +5,7 @@ import axios from 'axios'
  * * Creating an instance of axios with the baseURL
  */
 const instance = axios.create( {
-    baseURL : 'https://infoflow.herokuapp.com/',
+    baseURL : 'https://infofloww.herokuapp.com/',
     //baseURL : 'http://localhost:5000/'
 })
 

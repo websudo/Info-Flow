@@ -17,6 +17,10 @@ export default function SwitchBar() {
             document.querySelector('.chat-icon-div').style.backgroundColor = "white";
             document.querySelector('.chat-icon-div').style.color = "black";
         }
+        if(window.location.href.split('/').pop() == 'chat'){
+            document.querySelector('.chat-icon-div').style.backgroundColor = "white";
+            document.querySelector('.chat-icon-div').style.color = "black";
+        }
     })
     return (
         <div className="switch-bar-div">
@@ -28,7 +32,7 @@ export default function SwitchBar() {
             </Link>
             <div className="divider"></div>
 
-            <Link to='/notbuilt' style={{ textDecoration: 'none', color : "black"}}>
+            <Link to='/chat' style={{ textDecoration: 'none', color : "black"}}>
                 <div className="chat-icon-div">
                     <ChatIcon id="chat-icon" sx={{ fontSize: 40}}/>
                     <p>Chat</p>

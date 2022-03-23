@@ -1,0 +1,23 @@
+::-webkit-scrollbar{
+    width: 1.25em; 
+}
+
+::-webkit-scrollbar-track{
+    background: hsl(5, 0%, 38%);
+}
+
+::-webkit-scrollbar-thumb{
+    background: hsl(5, 0%, 17%);
+    border: .25em solid hsl(5, 0%, 38%);
+    border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background: hsl(5, 0%, 10% / 1);
+}
+
+@supports (scrollbar-color: red blue){
+    *{
+        scrollbar-color: hsl(5, 0%, 10%) hsl(5, 0%, 38%);
+    }
+}

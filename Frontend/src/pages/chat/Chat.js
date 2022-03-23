@@ -1,38 +1,92 @@
 
 import { makeStyles ,withStyles } from '@material-ui/core/styles';
-import React,{ useEffect , useState} from 'react'
+import React,{ useEffect , useRef, useState} from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import Conversation from '../../components/conversation/Conversation'
 import Message from '../../components/message/Message';
 import ChatOnline from '../../components/chatonline/ChatOnline';
 import axios from '../../api/index';
 import SwitchBar from '../../components/switch/SwitchBar';
+import {io} from 'socket.io-client'; 
+import Button from '@material-ui/core/Button';
+import Divider from '@mui/material/Divider';
+import SearchBar from 'material-ui-search-bar';
+import "./Chat.css"
 
 const useStyles = makeStyles({
     
     chat__div:{
 
         // Remeber to add spaces between the operands and operator
-        height: 'calc( 100vh - 70px )',
+        height: 'calc( 100vh - 200px)',
         display: 'flex',
+        //borderTop: '3px solid rgba(124, 124, 124, 0.8)',
+        //borderBottom: '3px solid rgba(124, 124, 124, 0.8)',
+        ['@media (max-width: 720px)']:{
+            display: 'block',
+            borderBottom: 0 ,
+        },
     },
 
     start__box:{
         flex: '3.5',
+        //borderRight: '3px solid rgba(124, 124, 124, 0.8)',
+        padding: '10px',
+        textAlign: 'center',
+        overflow: 'auto',
+        backgroundColor: 'white',
+        borderRadius: '10px',
+        marginLeft: 10,
+        marginRight: 5,
+        ['@media (max-width: 720px)']:{
+            //border: '2px solid rgba(150,150,150)',
+            margin: '10px',
+            padding: 0,
+        },
     },
 
     middle__box:{
         flex: '5.5',
+        //borderRight: '3px solid rgba(124, 124, 124, 0.8)',
+        backgroundColor: 'white',
+        borderRadius: '10px',
+        marginLeft: 5,
+        marginRight: 5,
+        ['@media (max-width: 720px)']:{
+            //border: '2px solid rgba(150,150,150)',
+            minHeight: '200px',
+            maxHeight: '300px',
+            margin: '10px'
+        },
     },
 
     end__box:{
         flex: '3',
+        textAlign: 'center',
+        overflow: 'auto',
+        backgroundColor: 'white',
+        marginLeft: 5,
+        marginRight: 10,
+        borderRadius: '10px',
+        ['@media (max-width: 720px)']:{
+            overflowX: 'scroll',
+            //border: '2px solid rgba(150,150,150)',
+            margin: '10px',
+        },
     },
 
     chatmenu:{
         padding: 10,
-        height: '100%',
-  
+        backgroundColor: '#F5F5F5',
+        padding: 5,
+        borderRadius: '10px',
+        marginTop: '10px',
+        ['@media (max-width: 720px)']:{
+            //border: '1px solid rgba(150,150,150)',
+            display: 'flex',
+            overflowX: 'scroll',    
+        },
+
     },
 
     chatbox:{
@@ -42,17 +96,48 @@ const useStyles = makeStyles({
         position: 'relative',
         padding: 10,
         height: '100%',
+
+        
     },
 
     chatonline:{
         padding: 10,
+        // ['@media (max-width: 720px)']:{
+        //     overflowX: 'scroll',
+        // },
+    },
+
+    chat__online__div:{
         height: '100%',
+        backgroundColor: '#F5F5F5',
+        padding: 5,
+        borderRadius: '10px',
+        marginTop: '10px',
+        ['@media (max-width: 720px)']:{
+            //border: '1px solid rgba(150,150,150)',
+            display: 'flex',
+            overflowX: 'scroll',    
+        },
+    },
+
+    chat__online__title:{
+        padding: 10,
+        borderRadius: '10px',
+        backgroundColor:'rgba(63,81,181)',
+    },
+
+    conversation__title:{
+        padding: 10,
+        borderRadius: '10px',
+        backgroundColor:'rgba(63,81,181)',
     },
 
     chat__input:{
-        width: '90%',
-        padding: '10px 0',
+        width: '100%',
+        padding: '10px 10px',
         border: 'none',
+        // marginLeft: '10px',
+        // marginRight: '10px',
     },
 
     chatbox__bottom:{
@@ -60,7 +145,7 @@ const useStyles = makeStyles({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'sapce-between',
-      
+
     },
 
     chatmsg__input:{
@@ -86,7 +171,14 @@ const useStyles = makeStyles({
         height: '100%',
         overflowY: 'scroll',
         paddingRight: 10,
-        
+        backgroundColor: '#F5F5F5',
+        borderRadius: '10px',
+        ['@media (max-width: 720px)']:{
+            border: '1px solid rgba(200,200,200)',
+            overflowY: 'scroll',
+            minHeight: '200px',
+            maxHeight: '200px',
+        },
     },
     
     noconversation:{
@@ -94,7 +186,15 @@ const useStyles = makeStyles({
         top: '100',
         fontSize: 30,
         color: 'gray',
-        cursor: 'default'
+        cursor: 'default',
+
+        ['@media (max-width: 720px)']:{
+            fontSize: 20,
+        },
+    },
+     
+    post__button:{
+        marginLeft: 10,
     }
   });
 
@@ -108,8 +208,57 @@ export default function Chat() {
     const [ currentchat , setCurrentChat ] = useState(null)
     const [ messages , setMessages ] = useState(null)
     const [ newmessage , setNewMessage ] = useState("")
+    const [ arrivalMessage , setArrivalMessage ] = useState(null)
+    const [onlineUsers, setOnlineUsers] = useState([]);
+    const [searchValue, setSearchValue] = useState();
+    const newMessageCounter = useRef(0);
+    const socket = useRef();
+    const scrollRef = useRef();
 
     const userId = JSON.parse(localStorage.getItem("profile")).data.user.id;
+
+    useEffect( () =>{
+        socket.current = io("https://infofloww.herokuapp.com/");
+        socket.current.on("getMessage", data =>{
+            console.log(data);
+            setArrivalMessage({
+                sender: data.senderId,
+                text: data.text,
+                createdAt: Date.now(),
+            })
+    },[])
+
+        socket.current.on("refresh_conv", () =>{
+            const getConversation = async () => {
+                try{
+                    const res = await axios.get("/api/conversation/" + userId);
+                  
+                    setConversation(res.data);
+                }
+                catch(err){
+                    console.log(err);
+                }
+            }
+            getConversation();
+        })
+
+        socket.current.emit( "reloaded-getUsers");
+    },[])
+
+
+    useEffect(() =>{
+        arrivalMessage && currentchat?.member.includes(arrivalMessage.sender) &&
+        setMessages(prev => [...prev, arrivalMessage])
+    },[arrivalMessage, currentchat]);
+
+    useEffect(()=>{
+        socket.current.emit("addUser", userId);
+        socket.current.on("getUsers", users =>{
+            console.log( users);
+            setOnlineUsers(users);
+        })
+    },[userId])
+  
 
 
     useEffect(() => {
@@ -124,13 +273,36 @@ export default function Chat() {
             }
         }
         getConversation();
-    }, [userId]);
+    },[userId, currentchat]);
 
- 
+
+    
+
+
+    useEffect( () => {
+        const getConversation = async () => {
+            try{
+                const res = await axios.get("/api/conversation/" + userId);
+                console.log("i am here", res.data)
+                setConversation(res.data);
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        getConversation();
+    },[])
+
+    
+    const setCurrentChatFunc = (c) =>{
+        setCurrentChat(c);
+        console.log(c);
+    }
+
     let conversation_list = conversation.map( c => {
         
         return(
-        <div onClick={() => setCurrentChat(c)}>
+        <div onClick={() => setCurrentChatFunc(c)}>
             <Conversation conversation={c} currentuser={userId}/>
         </div>
         )
@@ -162,9 +334,30 @@ export default function Chat() {
             conversationId : currentchat._id,
         }
 
+        const receiverId = currentchat.member.find( member => member !== userId);
+
+        socket.current.emit("sendMessage" , {
+            senderId : userId,
+            receiverId,
+            text: newmessage,
+            
+        })
+
+
         try{
             const res= await axios.post('/api/messages' , message);
             setMessages([ ...messages , res.data]);
+            setNewMessage("");
+
+            try{
+                newMessageCounter.current = newMessageCounter.current + 1;
+                console.log(`/api/conversation/${currentchat._id}/${newMessageCounter.current}`);
+                const res = await axios.update(`/api/conversation/${currentchat._id}/${newMessageCounter.current}`);
+                console.log( res ); 
+            }
+            catch(err){
+                console.log(err);
+            }
         }
         catch(err){
             console.log(err)
@@ -172,6 +365,13 @@ export default function Chat() {
 
     }
 
+    const doSomethingWith = () =>{
+
+    }
+
+    useEffect(() =>{
+        scrollRef.current?.scrollIntoView({behavior : 'smooth'})
+    },[messages])
 
     console.log( messages)
     return (
@@ -179,9 +379,24 @@ export default function Chat() {
             <Navbar/>
             <SwitchBar/>
             <div className={classes.chat__div}>
+                
                 <div className={classes.start__box }>
+                    <div className={classes.conversation__title}>
+                        <p className='conversation__title'>Conversations</p>     
+                    </div>
+  
+                    {/* <input placeholder='Search for friends' className={ classes.chat__input}/> */}
+                    {/* <SearchBar
+                        value={searchValue}
+                        onChange={(newValue) => setSearchValue(newValue)}
+                        onRequestSearch={() => doSomethingWith(searchValue)}
+                        onCancelSearch ={  
+                        () => setSearchValue("")
+                        }
+                        className={classes.searchbar}
+                    /> */}
                     <div className={classes.chatmenu}>
-                        <input placeholder='Search for friends' className={ classes.chat__input}/>
+                        
                         { conversation_list}
                     </div>
                 </div>
@@ -195,8 +410,9 @@ export default function Chat() {
                             { messages.map( m => {
                                 console.log(m.sender, userId);
                                 return(
-                                    
-                                    <Message message={m} own={ m.sender === userId }/>
+                                    <div ref={scrollRef}>
+                                        <Message message={m} own={ m.sender === userId }/>  
+                                    </div>
                                 )
                             })}
                            
@@ -209,9 +425,17 @@ export default function Chat() {
                                 placeholder="write something">
                             </textarea>
 
-                            <button 
+                            <Button 
+                                size="small" 
+                                color="primary"
+                                variant="contained"
+                                type="submit"
+                                className={classes.post__button}
+                                disableElevation
                                 onClick={handleSubmit}
-                                className={classes.chat__submit}>Send</button>
+                                >
+                                Send
+                            </Button>
                         </div>
                     </> : 
                         <span className={classes.noconversation}>Open a Conversation to start a chat.</span> 
@@ -220,8 +444,14 @@ export default function Chat() {
                 </div>
                 <div className={classes.end__box }>
                     <div className={classes.chatonline}>
-                        <ChatOnline/>
-
+                        <div className={classes.chat__online__title}>
+                            <p className='chat__online__title'>Online Friends</p>
+                        </div>
+                        
+                        <div className={classes.chat__online__div}>
+                            <ChatOnline onlineUsers={onlineUsers} currentId={userId} setCurrentChat={setCurrentChat}/>
+                        </div>
+                        
                     </div>
                 </div>
 
