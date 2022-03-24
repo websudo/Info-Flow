@@ -5,7 +5,7 @@ import onlineimg from '../../assets/logo/logo1.png'
 import axios from '../../api/index';
 import Divider from '@mui/material/Divider';
 import {io, Socket} from 'socket.io-client'
-
+import './ChatOnline.css'
 
 const useStyles = makeStyles({
     chatonline:{
@@ -155,11 +155,19 @@ export default function ChatOnline({onlineUsers, currentId, setCurrentChat}) {
             {friends.map( o => (
             <div className={classes.chatonline__friend} onClick={() => handleClick(o)}>
                 <div className={classes.chatonlineimg__div}>
-                    <img className={classes.chatonlineimg} src={onlineimg}></img>
+                    {/* <img className={classes.chatonlineimg} src={onlineimg}></img> */}
+                    { o.admin ? 
+                        <div className="avatar-circle-admin">
+                            <span className="initials">{o.name[0].toUpperCase() + (o.name.split(" ")[1] !== undefined ?o.name.split(" ")[1].toUpperCase():'') }</span>
+                        </div> :
+                        <div className="avatar-circle">
+                            <span className="initials">{o.name[0].toUpperCase() + (o.name.split(" ")[1] !== undefined ?o.name.split(" ")[1].toUpperCase():'') }</span>
+                        </div> 
+                    }
                     { onlineUser.current && onlineUser.current.includes(o._id) && <div className={classes.chatonline__badge}></div>}
                     { onlineUser.current && !onlineUser.current.includes(o._id) && <div className={classes.chatoffline__badge}></div>}
                 </div>
-                <span className={classes.chatonline__name}>{o.name}</span>
+                <span className='chatonline__name'>{o.name}</span>
                 <Divider orientation="vertical" variant="middle" />
             </div>
             ))}

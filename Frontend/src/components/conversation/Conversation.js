@@ -4,7 +4,7 @@ import React,{useState , useEffect} from 'react'
 import convimg from '../../assets/logo/logo1.png'
 import Divider from '@mui/material/Divider';
 import axios from '../../api/index'
-
+import './Conversation.css'
 
 const useStyles = makeStyles({
     conversation:{
@@ -26,28 +26,7 @@ const useStyles = makeStyles({
         },
     },
  
-    conv__img:{
-        width: 50,
-        borderRadius: '50%',
-        objectFit: 'cover',
-        marginRight: 20,
-
-        ['@media (max-width: 720px)']:{
-            width: 40,
-            height: 40,
-            borderRadius: '50%',
-            objectFit: 'cover',
-            border: '1px solid white',
-        },
-    },
-
-    conv__name:{
-        fontWeight: 500,
-
-        ['@media (max-width: 720px)']:{
-            marginRight: 0,
-        },
-    },
+   
 
     divider:{
         
@@ -96,8 +75,15 @@ export default function Conversation({ conversation , currentuser}) {
 
     return (
         <div className={classes.conversation}>
-            <img  src={convimg} className={ classes.conv__img}></img>
-            <span className={ classes.conv__name}>{ user ? user.name : null}</span>
+            { user?.admin ? 
+                        <div className='conv__img__admin'>
+                            <span className='conv__initials'>{ (user?.name[0] !== undefined ?user?.name[0].toUpperCase():'') + (user?.name.split(" ")[1] !== undefined ?user?.name.split(" ")[1].toUpperCase():'') }</span>
+                        </div> :
+                        <div className='conv__img'>
+                            <span className='conv__initials'>{(user?.name[0] !== undefined ?user?.name[0].toUpperCase():'')  + (user?.name.split(" ")[1] !== undefined ?user?.name.split(" ")[1].toUpperCase():'') }</span>
+                        </div> 
+            }
+            <span className='conv__name'>{ user ? user.name : null}</span>
             <div className={classes.divider}></div>
         </div>
     )

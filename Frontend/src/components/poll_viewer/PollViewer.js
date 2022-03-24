@@ -37,12 +37,13 @@ const useStyles = makeStyles({
             marginRight: 15,
         },
 
+        ['@media (max-height: 740px)']:{
+            maxHeight: '500px',
+        },
+
         overflowX: 'hidden',
     },
 
-    poll__details:{
-        width: '100%'
-    },
 
     media: {
       height: 140,
@@ -116,6 +117,14 @@ const useStyles = makeStyles({
     poll__details:{
         marginTop: 10,
         marginBottom: 10,
+        overflow: 'auto',
+        ['@media (max-height: 740px)']:{
+            marginLeft: 10,
+            marginRight: 10,
+            flex: 1,
+            height: 300,
+            minWidth: 250,
+        },
     }
   });
 

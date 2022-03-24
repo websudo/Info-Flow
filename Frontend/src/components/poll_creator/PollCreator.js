@@ -112,10 +112,14 @@ const useStyles = makeStyles({
 
     box:{
       maxHeight: '300px',
-      overflow: 'scroll',
+      overflow: 'auto',
       padding: '1%',
       marginTop: '1%',
       overflowX: 'hidden',
+
+      ['@media (max-height: 740px)']:{
+        maxHeight: '200px',
+    },
     }
   });
 
