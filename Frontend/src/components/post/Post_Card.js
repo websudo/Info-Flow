@@ -235,11 +235,11 @@ export default function MediaCard() {
             {list.length == 0 && <p style={{ textAlign:'center'}}>No posts found ...</p>}
 
 
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="success">
                     Welcome {username }!
                     </Alert>
-            </Snackbar>
+            </Snackbar> */}
 
             
         </div>

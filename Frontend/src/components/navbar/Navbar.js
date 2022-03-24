@@ -60,17 +60,6 @@ const Navbar = () => {
 
 
     useEffect( () => {
-        const toggleButton = document.getElementsByClassName('toggle-button')[0]
-        const navbarLinks = document.getElementsByClassName('navbar-links')[0]
-
-        toggleButton.addEventListener('click', () => {
-            navbarLinks.classList.toggle('active')
-        })
-
-    })
-
-
-    useEffect( () => {
 
         /**
          * * Checking if the Token has expired or not 
@@ -111,6 +100,13 @@ const Navbar = () => {
     }, [location]);
 
     
+    const handleHamburgerClick = () => {
+        const navbarLinks = document.getElementsByClassName('navbar-links')[0];
+        console.log( "hey there", navbarLinks.classList)
+
+        navbarLinks.classList.toggle('active')
+    }
+
     
     const handleLogout = () =>{
         
@@ -159,7 +155,7 @@ const Navbar = () => {
                 <Link to = '/home' className="brand-title">
                     <img src={logo}></img>
                 </Link>
-                <a href="#" className="toggle-button">
+                <a href="#" className="toggle-button" onClick={handleHamburgerClick}>
                 <span className="bar"></span>
                 <span className="bar"></span>
                 <span className="bar"></span>
