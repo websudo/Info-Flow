@@ -26,7 +26,7 @@ import "./PollViewer.css"
 
 const useStyles = makeStyles({
     root: {
-        width:"500px",
+        width: 500,
         maxWidth: '800px',
         minHeight: '200px',
         maxHeight: '720px',
@@ -41,7 +41,7 @@ const useStyles = makeStyles({
             maxHeight: '500px',
         },
 
-        overflowX: 'hidden',
+      
     },
 
 

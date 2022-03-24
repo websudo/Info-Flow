@@ -40,7 +40,7 @@
 
 .poll__viewer__body{
     max-height: 700px;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .option{
