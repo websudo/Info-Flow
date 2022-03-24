@@ -1,8 +1,19 @@
 .poll__icon{
+    margin: auto;
+    color: white;
+}
+
+.poll__icon__div{
     position: fixed;
+    display: flex;
     bottom: 50px;
     right: 50px;
+    width: 80px;
+    height: 80px;
+    /*background-color: rgb(93, 93, 93);*/
+    background-color: rgba(63,81,181);
     cursor: pointer;
+    border-radius: 50%;
 }
 
 .poll__creator__div{
@@ -56,4 +67,13 @@
 .snackbar{
     margin-left: auto;
     margin-right: auto;
+}
+
+@media (max-width: 600px) {
+    .poll__icon__div{
+        width: 60px;
+        height: 60px;
+        bottom: 30px;
+        right: 30px;
+    }
 }

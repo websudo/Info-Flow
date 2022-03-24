@@ -12,6 +12,8 @@ import MuiAlert from '@mui/material/Alert';
 import axios from './../../api/index';
 import PollDialog from '../../components/poll_dialog/PollDialog'
 import PollViewer from '../../components/poll_viewer/PollViewer'
+import Grid from '@material-ui/core/Grid';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -189,7 +191,14 @@ export default function Home() {
             </div>
 
 			{localStorage.getItem("profile") && JSON.parse(localStorageRef.current).data.user.admin && 
-				<PollIcon className='poll__icon' fontSize='large' onClick={handlePollIconClick} />
+
+				<Grid item>
+					<Tooltip title="Create Poll" arrow placement="right" sx={{ fontSize:40}}>
+						<div className='poll__icon__div' onClick={handlePollIconClick}>
+							<PollIcon className='poll__icon' fontSize='large'  />
+						</div>
+					</Tooltip>
+				</Grid>
 			}
 			{ pollBoxOpen &&
 			<div className='poll__creator__div'>
