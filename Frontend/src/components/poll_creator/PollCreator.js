@@ -46,6 +46,8 @@ const useStyles = makeStyles({
             marginLeft: 15,
             marginRight: 15,
         },
+
+        
     },
 
     media: {
@@ -137,6 +139,7 @@ export default function PollCreator({handlePollIconClick, handleCloseCreatePoll,
     const [pollDesc, setPollDesc] = useState();
 
     const [optionList, setOptionList] = useState([{option:"", count: 0},{option:"", count:0}]);
+    const [ uploading , setUploading] = useState(false)
 
     const socket = useRef();
 
@@ -187,6 +190,7 @@ export default function PollCreator({handlePollIconClick, handleCloseCreatePoll,
         e.preventDefault();
 
         
+            setUploading(true);
 
             const payload = {
               creator_id:  JSON.parse(localStorage.getItem('profile')).data.user.id,
@@ -219,6 +223,7 @@ export default function PollCreator({handlePollIconClick, handleCloseCreatePoll,
                   total_vote: 0,
                 })
 
+                setUploading(false);
               },
               (err) => console.log(err))
             }
@@ -286,7 +291,7 @@ export default function PollCreator({handlePollIconClick, handleCloseCreatePoll,
                 {optionList.length !== 1 && <button
                   className="mr10"
                   onClick={() => handleRemoveClick(i)}>Remove</button>}
-                {optionList.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
+                {optionList.length - 1 === i && optionList.length !== 5 && <button onClick={handleAddClick}>Add</button>}
               </div>
             </div>
           );
@@ -322,6 +327,12 @@ export default function PollCreator({handlePollIconClick, handleCloseCreatePoll,
                     </Alert>
             </Snackbar>
         
+        { uploading &&
+          <Box sx={{ width: '100%' }}>
+            <LinearProgress />
+          </Box>
+        }
+
     </Card>
   );
 }

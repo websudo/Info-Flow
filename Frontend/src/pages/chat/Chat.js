@@ -408,7 +408,7 @@ export default function Chat() {
                         <div className={classes.chatbox__top}>
                             
                             { messages.map( m => {
-                                console.log(m.sender, userId);
+                                console.log(m, userId);
                                 return(
                                     <div ref={scrollRef}>
                                         <Message message={m} own={ m.sender === userId }/>  
@@ -445,7 +445,7 @@ export default function Chat() {
                 <div className={classes.end__box }>
                     <div className={classes.chatonline}>
                         <div className={classes.chat__online__title}>
-                            <p className='chat__online__title'>Online Friends</p>
+                            <p className='chat__online__title'>Users</p>
                         </div>
                         
                         <div className={classes.chat__online__div}>

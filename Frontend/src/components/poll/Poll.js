@@ -52,6 +52,15 @@ const useStyles = makeStyles({
             marginLeft: 15,
             marginRight: 15,
         },
+
+        
+    },
+
+    poll__body:{
+      ['@media (max-height: 740px)']:{
+        maxHeight: '500px',
+        overflow: 'auto'
+    },
     },
 
     close__icon__bar:{
@@ -215,6 +224,7 @@ export default function Poll({creator_id, id, title, description, options, submi
             <CloseIcon  onClick={() => {handleClickOpen()}} className={classes.close__icon}/>
         </CardActions>
         
+        <div className={classes.poll__body}>
 
         {/**
          * ! Remember to use encType while using formData 
@@ -381,6 +391,7 @@ export default function Poll({creator_id, id, title, description, options, submi
                     </Alert>
             </Snackbar> */}
         
+        </div>
     </Card>
   );
 }

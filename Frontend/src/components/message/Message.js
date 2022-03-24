@@ -79,7 +79,7 @@ export default function Message( {message, own} ) {
     return (
         <div className={ own ? classes.messageown:classes.message} >
             <div className={classes.message__top}>
-                <img src={messageimg}  className={classes.message__img}></img>
+                
                 <p className={ own ? classes.messageown__text:classes.message__text}>{message.text}</p>
             </div>
 
