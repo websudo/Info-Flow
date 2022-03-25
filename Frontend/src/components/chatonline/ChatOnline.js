@@ -158,10 +158,10 @@ export default function ChatOnline({onlineUsers, currentId, setCurrentChat}) {
                     {/* <img className={classes.chatonlineimg} src={onlineimg}></img> */}
                     { o.admin ? 
                         <div className="avatar-circle-admin">
-                            <span className="initials">{o.name[0].toUpperCase() + (o.name.split(" ")[1] !== undefined ?o.name.split(" ")[1].toUpperCase():'') }</span>
+                            <span className="initials">{o.name[0].toUpperCase() + (o.name.split(" ")[1] !== undefined ?o.name.split(" ")[1].charAt(0).toUpperCase():'') }</span>
                         </div> :
                         <div className="avatar-circle">
-                            <span className="initials">{o.name[0].toUpperCase() + (o.name.split(" ")[1] !== undefined ?o.name.split(" ")[1].toUpperCase():'') }</span>
+                            <span className="initials">{o.name[0].toUpperCase() + (o.name.split(" ")[1] !== undefined ?o.name.split(" ")[1].charAt(0).toUpperCase():'') }</span>
                         </div> 
                     }
                     { onlineUser.current && onlineUser.current.includes(o._id) && <div className={classes.chatonline__badge}></div>}

@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import axios from '../../api/index'
 import {Link } from 'react-scroll'
 import Loading from '../../components/loading/Loading'
+import { Redirect } from 'react-router-dom'
 
 
 const useStyles = makeStyles({
@@ -108,8 +109,7 @@ export default function Post() {
             setLoading(false);
 
             req.data.map( item => {
-              console.log(item._id)
-              if( item._id == state.id ){
+              if( item._id == state?.id ){
                 console.log(item, " Item matched ")
                 setPost(post => item)
               }
@@ -140,6 +140,11 @@ export default function Post() {
     }, [post])
     
 
+    if( state === undefined){
+      return (
+        <Redirect to="/"/>
+      )
+    }
 
     return (
             <div className="post__page">

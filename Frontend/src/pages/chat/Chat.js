@@ -11,6 +11,7 @@ import {io} from 'socket.io-client';
 import Button from '@material-ui/core/Button';
 import Divider from '@mui/material/Divider';
 import SearchBar from 'material-ui-search-bar';
+import { Redirect } from 'react-router-dom';
 import "./Chat.css"
 
 const useStyles = makeStyles({
@@ -215,7 +216,7 @@ export default function Chat() {
     const socket = useRef();
     const scrollRef = useRef();
 
-    const userId = JSON.parse(localStorage.getItem("profile")).data.user.id;
+    const userId = JSON.parse(localStorage.getItem("profile"))?.data.user.id;
 
     useEffect( () =>{
         socket.current = io("https://infofloww.herokuapp.com/");
@@ -374,6 +375,12 @@ export default function Chat() {
     },[messages])
 
     console.log( messages)
+
+    if( userId === undefined){
+        return (
+            <Redirect to='/auth'/>
+        )
+    }
     return (
         <div>
             <Navbar/>

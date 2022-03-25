@@ -2,12 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const cors = require('cors')
+//const http = require('http');
 var bodyParser = require('body-parser')
-const io = require('socket.io')(5001,{
-	cors:{
-		origin: "*",
-	}
-})
+
+// const io = require('socket.io')(process.env.PORT_SOCKET || 5001,{
+// 	cors:{
+// 		origin: "*",
+// 	}
+// })
 
 
 
@@ -23,8 +25,14 @@ const messageRoute = require('./routes/api/messages')
 const getUsersRoute = require('./routes/api/users');
 const pollRoute = require('./routes/api/poll')
 
-// app 
+// app
+// const app = express();
+// const server = http.createServer(app);
+// const io = require('socket.io')(server, {cors: {origin: '*'}});
+
+
 const app = express();
+
 
 // Middlewares
 app.use(express.json({limit : '50mb'}));
@@ -44,7 +52,7 @@ app.use('/api/messages' , messageRoute)
 app.use('/api/poll' , pollRoute)
 
 
-// Greeting Route 
+// Greeting Route
 app.get( '/' , (req,res) => {
 	res.send( " Hello to Info-Flow API ")
 })
@@ -54,6 +62,8 @@ app.get( '/' , (req,res) => {
 const db = process.env.MONGODB_URI
 const port = process.env.PORT || 5000
 
+
+
 mongoose
 	.connect(db, {
 		useNewUrlParser: true,
@@ -61,7 +71,8 @@ mongoose
 		useCreateIndex: true
 	})
 	.then(() =>
-		app.listen(port, () => console.log(`Server running on port ${port} 🔥`))
+		// app.listen(port, () => console.log(`Server running on port ${port} 🔥`))
+		console.log("server started")
 	)
 	.catch((error) => console.log(error.message));
 
@@ -73,15 +84,14 @@ mongoose.set("useFindAndModify", false);
 
 
 
-// socket io code
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
+		cors:{
+			origin: "*",
+		}
+	});
 
-// io.on( 'connection' , socket =>{
-// 	console.log(socket.id);
-// 	socket.on('pollbyadmin', (arr) => {
-// 		console.log(arr);
-// 		socket.broadcast.emit('poll-recieved',arr);
-// 	})
-// })
+
 
 let users = [];
 let loggedInUsers = [];
@@ -101,8 +111,8 @@ let total_vote_;
 const addUser = ( userId, socketId) => {
 	!users.some( user => user.userId === userId) &&
 	users.push({userId, socketId});
-		
-	
+
+
 }
 
 const addLoggedInUser = ( userId, socketId) =>{
@@ -112,18 +122,15 @@ const addLoggedInUser = ( userId, socketId) =>{
 		loggedInUsersSocketId.push(socketId);
 	}
 
-	console.log( "Logged In users",loggedInUsers)
-	console.log('ddddddddddddddddddddddddddddddd', title_, desc, options);
+
 	if( id_ && title_ && desc && options && submitted_by_){
-		console.log("emit called", loggedInUsersSocketId)
 
 		loggedInUsersSocketId.forEach( (id) =>{
 			if(!removedLoggedInUsersSocketId.includes(id)){
-				console.log( "emit to", id);
 				io.to(id).emit("sendpoll",{id_, title_, desc, options, submitted_by_, not_submitted_, total_vote_});
 			}
 		})
-		
+
 	}
 }
 
@@ -139,7 +146,6 @@ const removeLoggedInUser = ( userId, socketId) =>{
 }
 
 const getUser = (userId) => {
-	console.log( users, userId);
 	return users.find( user => user.userId === userId);
 }
 
@@ -160,23 +166,27 @@ io.on( 'connection' , socket =>{
 		addLoggedInUser(userId, socket.id);
 	})
 
+	socket.on("reloaded-getUsers", () => {
+		io.emit("getUsers", users);
+	})
+
 	//Send and get message
 	socket.on("sendMessage", ({senderId, receiverId, text}) => {
-		console.log( senderId, receiverId, text)
+
 		const user = getUser(receiverId);
-		console.log(user);
+
 		if(user){
 			io.to(user.socketId).emit( "getMessage",{
 				senderId,
 				text
 			})
 		}
-		
+
 	})
 
 
 	socket.on("getpoll", ({creator_id, id, title, description, optionList, submitted_by, not_submitted, total_vote}) =>{
-		console.log( title, optionList);
+
 		id_ = id
 		title_ = title;
 		desc = description;
@@ -186,14 +196,12 @@ io.on( 'connection' , socket =>{
 		total_vote_ = total_vote;
 
 		io.emit("sendpoll",{creator_id, id, title, description, optionList, submitted_by, not_submitted, total_vote});
-		
-		
+
+
 	})
 
 
 	socket.on("updatedPoll", ({data}) =>{
-		console.log(data);
-
 		io.emit("recieveUpdatedPoll",{data});
 	})
 
@@ -218,4 +226,6 @@ io.on( 'connection' , socket =>{
 	})
 })
 
-
+server.listen(process.env.PORT || 5000, () =>{
+	console.log(`SocketIO running on port ${process.env.PORT}`)
+});

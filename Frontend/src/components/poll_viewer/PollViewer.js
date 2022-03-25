@@ -176,13 +176,13 @@ export default function PollDialog({handleClosePollViewer, handleBackPollViewer}
                                 <div className='option'>
                                     <div className='option__name'>
                                         
-                                        <p className='option__p'>{o.option}</p>
+                                        <p className='option__name__text'>{o.option}</p>
                                        <div className='option__name__bar' style={{ backgroundColor: 'rgba(54, 162, 235, 0.2)', width:`${e.submitted_by.length !== 0?Math.round(((o.count/e.submitted_by.length)*100)):0}%`}}>
                                   
                                         </div> 
                                     </div>
                                     <div className='option__count'>
-                                        <p className='option__p'>{o.count} ({e.submitted_by.length !== 0?((o.count/e.submitted_by.length)*100).toFixed(2):0}%)</p>
+                                        <p className='option__count__text'>{o.count} ({e.submitted_by.length !== 0?((o.count/e.submitted_by.length)*100).toFixed(2):0}%)</p>
                                     </div>
                                 </div>
                             ))}

@@ -24,8 +24,8 @@
 
   .initials {
     position: relative;
-    top: 7px; /* 25% of parent */
-    font-size: 20px; /* 50% of parent */
+    top: 5px; /* 25% of parent */
+    font-size: 16px; /* 50% of parent */
     line-height: 20px; /* 50% of parent */
     color: rgb(39, 39, 39);
     font-family: 'Fira Sans', sans-serif;

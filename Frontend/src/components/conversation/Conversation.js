@@ -77,10 +77,10 @@ export default function Conversation({ conversation , currentuser}) {
         <div className={classes.conversation}>
             { user?.admin ? 
                         <div className='conv__img__admin'>
-                            <span className='conv__initials'>{ (user?.name[0] !== undefined ?user?.name[0].toUpperCase():'') + (user?.name.split(" ")[1] !== undefined ?user?.name.split(" ")[1].toUpperCase():'') }</span>
+                            <span className='conv__initials'>{ (user?.name[0] !== undefined ?user?.name[0].toUpperCase():'') + (user?.name.split(" ")[1] !== undefined ?user?.name.split(" ")[1].charAt(0).toUpperCase():'') }</span>
                         </div> :
                         <div className='conv__img'>
-                            <span className='conv__initials'>{(user?.name[0] !== undefined ?user?.name[0].toUpperCase():'')  + (user?.name.split(" ")[1] !== undefined ?user?.name.split(" ")[1].toUpperCase():'') }</span>
+                            <span className='conv__initials'>{(user?.name[0] !== undefined ?user?.name[0].toUpperCase():'')  + (user?.name.split(" ")[1] !== undefined ?user?.name.split(" ")[1].charAt(0).toUpperCase():'') }</span>
                         </div> 
             }
             <span className='conv__name'>{ user ? user.name : null}</span>
