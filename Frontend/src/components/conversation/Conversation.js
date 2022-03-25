@@ -83,7 +83,7 @@ export default function Conversation({ conversation , currentuser}) {
                             <span className='conv__initials'>{(user?.name[0] !== undefined ?user?.name[0].toUpperCase():'')  + (user?.name.split(" ")[1] !== undefined ?user?.name.split(" ")[1].charAt(0).toUpperCase():'') }</span>
                         </div> 
             }
-            <span className='conv__name'>{ user ? user.name : null}</span>
+            <div className='conv__name'>{ user ? user.name : null}</div>
             <div className={classes.divider}></div>
         </div>
     )

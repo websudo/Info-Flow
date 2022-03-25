@@ -35,6 +35,7 @@
   .chatonline__name{
     font-family: 'Fira Sans', sans-serif;
     font-weight: 400;
+    white-space: nowrap;
   }
 
   @media (max-width: 720px) {

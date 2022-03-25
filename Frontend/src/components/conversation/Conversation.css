@@ -39,6 +39,7 @@
   .conv__name{
     font-family: 'Fira Sans', sans-serif;
     font-weight: 500;
+    white-space: nowrap;
   }
 
   @media (max-width: 720px) {
