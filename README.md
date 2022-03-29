@@ -12,7 +12,7 @@
 ###  🧐 Features
 
 - Forum, where faculties can update information in the form of posts and get feedback or query in the comment section.
-- Chat, which provides real time interaction between teachers and students, and get the issues resolved at personal level. ( !!Under Construction!! )
+- Chat, which provides real time interaction between teachers and students, and get the issues resolved at personal level.
 <hr/>
 
 ###  Link
