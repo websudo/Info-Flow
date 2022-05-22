@@ -212,6 +212,7 @@ export default function Chat() {
     const [ arrivalMessage , setArrivalMessage ] = useState(null)
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [searchValue, setSearchValue] = useState();
+    const [convUser, setConvUser] = useState(false);
     const newMessageCounter = useRef(0);
     const socket = useRef();
     const scrollRef = useRef();
@@ -296,18 +297,23 @@ export default function Chat() {
 
     
     const setCurrentChatFunc = (c) =>{
+        console.log(c.member, c.member.indexOf(userId))
         setCurrentChat(c);
-        console.log(c);
+        c.member.splice(c.member.indexOf(userId),1)
+        console.log(c.member)
+        setConvUser(c.member[0]);
+       
     }
 
     let conversation_list = conversation.map( c => {
-        
+        console.log(c);
         return(
-        <div onClick={() => setCurrentChatFunc(c)}>
+        <div onClick={() => setCurrentChatFunc(c)} style={{ background: c.member.includes(convUser) ?'rgba(63,81,181,0.4)': 'none', borderRadius: '10px'}}>
             <Conversation conversation={c} currentuser={userId}/>
         </div>
         )
     })
+
 
     console.log(currentchat)
     useEffect(() => {
