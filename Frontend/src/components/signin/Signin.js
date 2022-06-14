@@ -86,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
     })
 
     const [open, setOpen] = React.useState(false);
+    const [openError, setOpenError] = React.useState(false);
 
 
     const handleClick = () => {
@@ -99,6 +100,14 @@ const useStyles = makeStyles((theme) => ({
         }
 
         setOpen(false);
+    };
+
+    const handleErrorClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpenError(false);
     };
 
 
@@ -120,10 +129,9 @@ const useStyles = makeStyles((theme) => ({
     const handleSubmit = (e) => {
 
         e.preventDefault();
-
-        setLoading(true);
   
         if( values.email && values.password){
+            setLoading(true);
             axios.post('/api/auth/login' , values)
             .then( res => 
                 {
@@ -152,6 +160,10 @@ const useStyles = makeStyles((theme) => ({
                 setErrMessage(err.response.data.msg);
                 handleClick()
             })
+        }
+
+        else{
+            setOpenError(true);
         }
     }
 
@@ -222,7 +234,12 @@ const useStyles = makeStyles((theme) => ({
                     </Alert>
                 </Snackbar>
 
-        
+                <Snackbar open={openError} autoHideDuration={6000} onClose={handleErrorClose}>
+                    <Alert onClose={handleErrorClose} severity="error">
+                    Please fill all the required fields!
+                    </Alert>
+                </Snackbar>
+
                     {/*<Box sx={{ display: 'flex' }}>
                         <CircularProgress />
                 </Box>*/}

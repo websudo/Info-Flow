@@ -69,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
     const [ errMessage , setErrMessage] = useState();
 
     const [open, setOpen] = React.useState(false);
+    const [openError, setOpenError] = React.useState(false);
 
 
     const handleClick = () => {
@@ -82,6 +83,14 @@ const useStyles = makeStyles((theme) => ({
         }
 
         setOpen(false);
+    };
+
+    const handleErrorClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpenError(false);
     };
 
     const handleChange = (props) => (event) => {
@@ -106,8 +115,9 @@ const useStyles = makeStyles((theme) => ({
 
         e.preventDefault();
 
-        setLoading(true);
+        
         if( values.name && values.email && values.password && values.password_confirmation){
+            setLoading(true);
             axios.post( '/api/auth/register' , values )
             .then( res => {
                 console.log(res)
@@ -128,6 +138,7 @@ const useStyles = makeStyles((theme) => ({
         }
 
         else{
+            setOpenError(true);
             console.log( " Parameters missing ")
         }
     }
@@ -230,6 +241,12 @@ const useStyles = makeStyles((theme) => ({
                     {errMessage}
                     </Alert>
                 </Snackbar>  
+
+                <Snackbar open={openError} autoHideDuration={6000} onClose={handleErrorClose}>
+                    <Alert onClose={handleErrorClose} severity="error">
+                    Please fill all the required fields!
+                    </Alert>
+                </Snackbar>
         </div>
     )
 }
